@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class ShadowAI : MonoBehaviour
@@ -6,14 +7,24 @@ public class ShadowAI : MonoBehaviour
     private NavMeshAgent agent;
 
     [Header("Vision")]
-    [SerializeField, Range(0f, 100f)] private float viewDistance = 20f;
-    [SerializeField, Range(0f, 60f)] private float viewAngle = 30f;
-    [SerializeField] private float eyeHeight = 1f;
+    [SerializeField, Range(0f, 50f)] private float viewDistance = 20f;
+    [SerializeField, Range(0f, 90f)] private float viewAngle = 90f;
+    [SerializeField, Range(0f, 90f)] private float viewHeight = 1f;
+
+    [Header("Behavior")]
+    [SerializeField] private float despawnDelay = 3f;
 
     private Transform player;
     private Transform currentTarget;
 
-    private bool hasDetectedPlayer = false;
+    private State currentState = State.Idle;
+
+    private enum State
+    {
+        Idle,
+        Chasing,
+        Investigating
+    }
 
     void Awake()
     {
@@ -27,8 +38,7 @@ public class ShadowAI : MonoBehaviour
 
     void Update()
     {
-        HandleDetection();
-        FollowTarget();
+        HandleState();
     }
 
     // ---------- Initialization ----------
@@ -36,7 +46,7 @@ public class ShadowAI : MonoBehaviour
     private void InitializeAgent()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = true; // usamos rotación automática
+        agent.updateRotation = true;
     }
 
     private void FindPlayer()
@@ -53,16 +63,37 @@ public class ShadowAI : MonoBehaviour
         }
     }
 
+    // ---------- State Machine ----------
+
+    private void HandleState()
+    {
+        switch (currentState)
+        {
+            case State.Idle:
+                DetectPlayer();
+                break;
+
+            case State.Chasing:
+                FollowTarget();
+                break;
+
+            case State.Investigating:
+                FollowTarget();
+                CheckArrival();
+                break;
+        }
+    }
+
     // ---------- Detection ----------
 
-    private void HandleDetection()
+    private void DetectPlayer()
     {
         if (player == null) return;
 
-        if (!hasDetectedPlayer && CanSeePlayer())
+        if (CanSeePlayer())
         {
-            hasDetectedPlayer = true;
             SetTarget(player);
+            currentState = State.Chasing;
         }
     }
 
@@ -71,16 +102,13 @@ public class ShadowAI : MonoBehaviour
         Vector3 direction = player.position - transform.position;
         float distance = direction.magnitude;
 
-        // Distance check
         if (distance > viewDistance) return false;
 
-        // Angle check
         direction.Normalize();
         float angle = Vector3.Angle(transform.forward, direction);
         if (angle > viewAngle) return false;
 
-        // Raycast check
-        Vector3 origin = transform.position + Vector3.up * eyeHeight;
+        Vector3 origin = transform.position + Vector3.up * viewHeight;
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, viewDistance))
         {
@@ -104,11 +132,49 @@ public class ShadowAI : MonoBehaviour
         agent.SetDestination(currentTarget.position);
     }
 
-    // ---------- Target ----------
-
-    private void SetTarget(Transform newTarget)
+    private void CheckArrival()
     {
-        currentTarget = newTarget;
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            agent.isStopped = true;
+        }
+    }
+
+    private void SetTarget(Transform target)
+    {
+        currentTarget = target;
+    }
+
+    // ---------- Public API (para integración) ----------
+
+    public void Spawn(Vector3 position)
+    {
+        transform.position = position;
+        gameObject.SetActive(true);
+
+        currentTarget = null;
+        currentState = State.Idle;
+    }
+
+    public void OnPlayerHidden(Transform locker)
+    {
+        SetTarget(locker);
+        currentState = State.Investigating;
+
+        StartCoroutine(DespawnAfterDelay());
+    }
+
+    private IEnumerator DespawnAfterDelay()
+    {
+        yield return new WaitForSeconds(despawnDelay);
+        Despawn();
+    }
+
+    private void Despawn()
+    {
+        currentTarget = null;
+        agent.ResetPath();
+        gameObject.SetActive(false);
     }
 
     // ---------- Gizmos ----------
