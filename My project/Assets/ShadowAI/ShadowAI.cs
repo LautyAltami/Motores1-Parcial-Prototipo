@@ -1,15 +1,19 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class ShadowAI : MonoBehaviour
 {
     private NavMeshAgent agent;
 
-    [Header("Detection")]
-    [SerializeField] private float detectionRange;
+    [Header("Vision")]
+    [SerializeField, Range(0f, 100f)] private float viewDistance = 20f;
+    [SerializeField, Range(0f, 60f)] private float viewAngle = 30f;
+    [SerializeField] private float eyeHeight = 1f;
 
     private Transform player;
     private Transform currentTarget;
+
+    private bool hasDetectedPlayer = false;
 
     void Awake()
     {
@@ -32,6 +36,7 @@ public class ShadowAI : MonoBehaviour
     private void InitializeAgent()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = true; // usamos rotación automática
     }
 
     private void FindPlayer()
@@ -44,7 +49,7 @@ public class ShadowAI : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Player not found. Make sure it has the 'Player' tag.");
+            Debug.LogWarning("Player not found. Assign 'Player' tag.");
         }
     }
 
@@ -52,28 +57,37 @@ public class ShadowAI : MonoBehaviour
 
     private void HandleDetection()
     {
-        if (IsPlayerInRange())
+        if (player == null) return;
+
+        if (!hasDetectedPlayer && CanSeePlayer())
         {
-            if (currentTarget != player)
-            {
-                SetTarget(player);
-            }
-        }
-        else
-        {
-            if (currentTarget != null)
-            {
-                SetTarget(null);
-            }
+            hasDetectedPlayer = true;
+            SetTarget(player);
         }
     }
 
-    private bool IsPlayerInRange()
+    private bool CanSeePlayer()
     {
-        if (player == null) return false;
+        Vector3 direction = player.position - transform.position;
+        float distance = direction.magnitude;
 
-        float distance = Vector3.Distance(transform.position, player.position);
-        return distance <= detectionRange;
+        // Distance check
+        if (distance > viewDistance) return false;
+
+        // Angle check
+        direction.Normalize();
+        float angle = Vector3.Angle(transform.forward, direction);
+        if (angle > viewAngle) return false;
+
+        // Raycast check
+        Vector3 origin = transform.position + Vector3.up * eyeHeight;
+
+        if (Physics.Raycast(origin, direction, out RaycastHit hit, viewDistance))
+        {
+            return hit.transform.CompareTag("Player");
+        }
+
+        return false;
     }
 
     // ---------- Movement ----------
@@ -83,7 +97,6 @@ public class ShadowAI : MonoBehaviour
         if (currentTarget == null)
         {
             agent.isStopped = true;
-            agent.ResetPath();
             return;
         }
 
@@ -91,16 +104,22 @@ public class ShadowAI : MonoBehaviour
         agent.SetDestination(currentTarget.position);
     }
 
-    // ---------- Public API ----------
+    // ---------- Target ----------
 
-    public void SetTarget(Transform newTarget)
+    private void SetTarget(Transform newTarget)
     {
         currentTarget = newTarget;
     }
+
     // ---------- Gizmos ----------
+
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Vector3 left = Quaternion.Euler(0, -viewAngle, 0) * transform.forward;
+        Vector3 right = Quaternion.Euler(0, viewAngle, 0) * transform.forward;
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(transform.position, transform.position + left * viewDistance);
+        Gizmos.DrawLine(transform.position, transform.position + right * viewDistance);
     }
 }
