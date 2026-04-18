@@ -32,38 +32,24 @@ public class ShadowAI : MonoBehaviour
 
     void Awake()
     {
-        InitializeAgent();
-    }
-
-    void Start()
-    {
-        FindPlayer();
-    }
-
-    void Update()
-    {
-        HandleState();
-    }
-
-    // ---------- Initialization ----------
-
-    private void InitializeAgent()
-    {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = true;
     }
 
-    private void FindPlayer()
+    void Start()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
         if (playerObj != null)
             player = playerObj.transform;
         else
-            Debug.LogWarning("Player not found. Assign 'Player' tag.");
+            Debug.LogWarning("Player not found.");
     }
 
-    // ---------- State Machine ----------
+    void Update()
+    {
+        HandleState();
+    }
 
     private void HandleState()
     {
@@ -86,8 +72,6 @@ public class ShadowAI : MonoBehaviour
                 break;
         }
     }
-
-    // ---------- Detection ----------
 
     private void DetectPlayer()
     {
@@ -122,8 +106,6 @@ public class ShadowAI : MonoBehaviour
         return false;
     }
 
-    // ---------- Movement ----------
-
     private void FollowTarget()
     {
         if (currentTarget == null)
@@ -149,17 +131,7 @@ public class ShadowAI : MonoBehaviour
         currentTarget = target;
     }
 
-    // ---------- Public API (para integración) ----------
-
-    public void Spawn(Vector3 position)
-    {
-        transform.position = position;
-        gameObject.SetActive(true);
-
-        currentTarget = null;
-        hasAggro = false;
-        currentState = State.Idle;
-    }
+    // ---------- API ----------
 
     public void OnPlayerHidden(Transform locker)
     {
@@ -194,17 +166,8 @@ public class ShadowAI : MonoBehaviour
     private IEnumerator DespawnAfterDelay()
     {
         yield return new WaitForSeconds(despawnDelay);
-        Despawn();
+        Destroy(gameObject); // 🔥 clave
     }
-
-    private void Despawn()
-    {
-        currentTarget = null;
-        agent.ResetPath();
-        gameObject.SetActive(false);
-    }
-
-    // ---------- Gizmos ----------
 
     void OnDrawGizmosSelected()
     {

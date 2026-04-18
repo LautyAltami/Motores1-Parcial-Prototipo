@@ -3,7 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\aleja\\Desktop\\heavydirtysoul\\2 ESTUDIO\\UTN\\CURSADA\\8-Motores de desarrollo I\\Proyectos\\Motores1-Parcial-Prototipo\\My project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\aleja\\desktop\\heavydirtysoul\\2 estudio\\utn\\cursada\\8-motores de desarrollo i\\proyectos\\motores1-parcial-prototipo\\my project\\assets\\shadowai\\shadowai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\aleja\\desktop\\heavydirtysoul\\2 estudio\\utn\\cursada\\8-motores de desarrollo i\\proyectos\\motores1-parcial-prototipo\\my project\\assets\\shadowai\\shadowspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\shadowai\\shadowspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\aleja\\Desktop\\heavydirtysoul\\2 ESTUDIO\\UTN\\CURSADA\\8-Motores de desarrollo I\\Proyectos\\Motores1-Parcial-Prototipo\\My project\\assets\\shadowai\\shadowai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\shadowai\\shadowai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -19,15 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ShadowSpawner.cs",
+              "DocumentMoniker": "C:\\Users\\aleja\\Desktop\\heavydirtysoul\\2 ESTUDIO\\UTN\\CURSADA\\8-Motores de desarrollo I\\Proyectos\\Motores1-Parcial-Prototipo\\My project\\Assets\\ShadowAI\\ShadowSpawner.cs",
+              "RelativeDocumentMoniker": "Assets\\ShadowAI\\ShadowSpawner.cs",
+              "ToolTip": "C:\\Users\\aleja\\Desktop\\heavydirtysoul\\2 ESTUDIO\\UTN\\CURSADA\\8-Motores de desarrollo I\\Proyectos\\Motores1-Parcial-Prototipo\\My project\\Assets\\ShadowAI\\ShadowSpawner.cs",
+              "RelativeToolTip": "Assets\\ShadowAI\\ShadowSpawner.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T22:53:44.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "ShadowAI.cs",
               "DocumentMoniker": "C:\\Users\\aleja\\Desktop\\heavydirtysoul\\2 ESTUDIO\\UTN\\CURSADA\\8-Motores de desarrollo I\\Proyectos\\Motores1-Parcial-Prototipo\\My project\\Assets\\ShadowAI\\ShadowAI.cs",
               "RelativeDocumentMoniker": "Assets\\ShadowAI\\ShadowAI.cs",
               "ToolTip": "C:\\Users\\aleja\\Desktop\\heavydirtysoul\\2 ESTUDIO\\UTN\\CURSADA\\8-Motores de desarrollo I\\Proyectos\\Motores1-Parcial-Prototipo\\My project\\Assets\\ShadowAI\\ShadowAI.cs",
               "RelativeToolTip": "Assets\\ShadowAI\\ShadowAI.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKUAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAALQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-18T16:15:58.193Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-18T16:15:58.193Z"
             }
           ]
         }
