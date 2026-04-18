@@ -923,7 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c21addce665dda4aa6d92d85851b3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  viewDistance: 20
+  viewDistance: 25
   viewAngle: 90
   viewHeight: 1
   despawnDelay: 3

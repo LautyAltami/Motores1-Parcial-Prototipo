@@ -9,7 +9,7 @@ public class ShadowAI : MonoBehaviour
     [Header("Vision")]
     [SerializeField, Range(0f, 50f)] private float viewDistance = 20f;
     [SerializeField, Range(0f, 90f)] private float viewAngle = 90f;
-    [SerializeField, Range(0f, 90f)] private float viewHeight = 1f;
+    [SerializeField] private float viewHeight = 1f;
 
     [Header("Behavior")]
     [SerializeField] private float despawnDelay = 3f;
@@ -19,11 +19,15 @@ public class ShadowAI : MonoBehaviour
 
     private State currentState = State.Idle;
 
+    private bool hasAggro = false;
+    private Coroutine stunCoroutine;
+
     private enum State
     {
         Idle,
         Chasing,
-        Investigating
+        Investigating,
+        Stunned
     }
 
     void Awake()
@@ -54,13 +58,9 @@ public class ShadowAI : MonoBehaviour
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
         if (playerObj != null)
-        {
             player = playerObj.transform;
-        }
         else
-        {
             Debug.LogWarning("Player not found. Assign 'Player' tag.");
-        }
     }
 
     // ---------- State Machine ----------
@@ -81,6 +81,9 @@ public class ShadowAI : MonoBehaviour
                 FollowTarget();
                 CheckArrival();
                 break;
+
+            case State.Stunned:
+                break;
         }
     }
 
@@ -92,6 +95,7 @@ public class ShadowAI : MonoBehaviour
 
         if (CanSeePlayer())
         {
+            hasAggro = true;
             SetTarget(player);
             currentState = State.Chasing;
         }
@@ -153,15 +157,38 @@ public class ShadowAI : MonoBehaviour
         gameObject.SetActive(true);
 
         currentTarget = null;
+        hasAggro = false;
         currentState = State.Idle;
     }
 
     public void OnPlayerHidden(Transform locker)
     {
+        hasAggro = false;
+
         SetTarget(locker);
         currentState = State.Investigating;
 
         StartCoroutine(DespawnAfterDelay());
+    }
+
+    public void Stun(float duration)
+    {
+        if (stunCoroutine != null)
+            StopCoroutine(stunCoroutine);
+
+        stunCoroutine = StartCoroutine(StunRoutine(duration));
+    }
+
+    private IEnumerator StunRoutine(float duration)
+    {
+        currentState = State.Stunned;
+
+        agent.isStopped = true;
+        agent.ResetPath();
+
+        yield return new WaitForSeconds(duration);
+
+        currentState = hasAggro ? State.Chasing : State.Idle;
     }
 
     private IEnumerator DespawnAfterDelay()
