@@ -3,8 +3,13 @@ using UnityEngine.AI;
 
 public class ShadowAI : MonoBehaviour
 {
-    private NavMeshAgent agent;       // Handles movement using NavMesh
-    private Transform currentTarget;  // Target to follow (Player)
+    private NavMeshAgent agent;
+
+    [Header("Detection")]
+    [SerializeField] private float detectionRange;
+
+    private Transform player;
+    private Transform currentTarget;
 
     void Awake()
     {
@@ -18,23 +23,24 @@ public class ShadowAI : MonoBehaviour
 
     void Update()
     {
+        HandleDetection();
         FollowTarget();
     }
 
-    // Initializes and caches the NavMeshAgent component
+    // ---------- Initialization ----------
+
     private void InitializeAgent()
     {
         agent = GetComponent<NavMeshAgent>();
     }
 
-    // Finds the Player in the scene using its tag
     private void FindPlayer()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
         if (playerObj != null)
         {
-            SetTarget(playerObj.transform);
+            player = playerObj.transform;
         }
         else
         {
@@ -42,17 +48,59 @@ public class ShadowAI : MonoBehaviour
         }
     }
 
-    // Moves the agent towards the current target
+    // ---------- Detection ----------
+
+    private void HandleDetection()
+    {
+        if (IsPlayerInRange())
+        {
+            if (currentTarget != player)
+            {
+                SetTarget(player);
+            }
+        }
+        else
+        {
+            if (currentTarget != null)
+            {
+                SetTarget(null);
+            }
+        }
+    }
+
+    private bool IsPlayerInRange()
+    {
+        if (player == null) return false;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+        return distance <= detectionRange;
+    }
+
+    // ---------- Movement ----------
+
     private void FollowTarget()
     {
-        if (currentTarget == null) return;
+        if (currentTarget == null)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+            return;
+        }
 
+        agent.isStopped = false;
         agent.SetDestination(currentTarget.position);
     }
 
-    // Public method to assign a target dynamically (modular use)
+    // ---------- Public API ----------
+
     public void SetTarget(Transform newTarget)
     {
         currentTarget = newTarget;
+    }
+    // ---------- Gizmos ----------
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 }
