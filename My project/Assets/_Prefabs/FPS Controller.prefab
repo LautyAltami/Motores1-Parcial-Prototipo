@@ -11,9 +11,7 @@ GameObject:
   - component: {fileID: 5850500936322097543}
   - component: {fileID: 7623397928997433095}
   - component: {fileID: 8863859225678436990}
-  - component: {fileID: 8241016933150416743}
   - component: {fileID: 400549525362987342}
-  - component: {fileID: 6034759374625483610}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -95,50 +93,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2033611645497037964}
   m_Enabled: 1
---- !u!114 &8241016933150416743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2033611645497037964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
-  m_UseScreenCoordOverride: 0
-  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
-  m_Version: 2
 --- !u!114 &400549525362987342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,22 +107,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MouseLook
   mouseSensitivity: 100
   playerBody: {fileID: 7462225265677644520}
---- !u!114 &6034759374625483610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2033611645497037964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a8abb16e5dbfe54495ec592cc669968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HerramientaRaycast
-  distanciaInteraccion: 3
-  capaInteractuable:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!1 &3262532926836828556
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +207,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7462225265677644520}
   - component: {fileID: 4462101211262096593}
-  - component: {fileID: 1134121212788111446}
   m_Layer: 0
   m_Name: FPS Controller
   m_TagString: Untagged
@@ -320,27 +257,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1134121212788111446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3960678016052139097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22d96db73d9e56347a08373202dc6898, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  controller: {fileID: 4462101211262096593}
-  speed: 2
-  gravity: -9.18
-  groundCheck: {fileID: 1037466883508918688}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  jumpHeight: 3
 --- !u!1 &6753685514676154824
 GameObject:
   m_ObjectHideFlags: 0
