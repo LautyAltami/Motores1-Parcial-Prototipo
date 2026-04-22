@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lauty\\documents\\github\\motores1-parcial-prototipo\\my project\\assets\\_scripts\\lauty\\lockersystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\lauty\\lockersystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lauty\\documents\\github\\motores1-parcial-prototipo\\my project\\assets\\_scripts\\lauty\\interactablekey.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\lauty\\interactablekey.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\assets\\_scripts\\lauty\\camara\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\lauty\\camara\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lauty\\documents\\github\\motores1-parcial-prototipo\\my project\\assets\\_scripts\\lauty\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\lauty\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\assets\\_scripts\\lauty\\flashlight.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\lauty\\flashlight.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\assets\\_scripts\\lauty\\camara\\mouselook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\lauty\\camara\\mouselook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\assets\\_scripts\\lauty\\lockersystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\lauty\\lockersystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\assets\\_scripts\\lauty\\sanitymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\lauty\\sanitymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\assets\\_scripts\\lauty\\camara\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\lauty\\camara\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\assets\\quickoutline\\scripts\\outline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -41,11 +57,73 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "InteractableKey.cs",
+              "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\InteractableKey.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\InteractableKey.cs",
+              "ToolTip": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\InteractableKey.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Lauty\\InteractableKey.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T02:20:19.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlayerInventory.cs",
+              "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\PlayerInventory.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\PlayerInventory.cs",
+              "ToolTip": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\PlayerInventory.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Lauty\\PlayerInventory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T02:17:21.359Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SanityManager.cs",
+              "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\SanityManager.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\SanityManager.cs",
+              "ToolTip": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\SanityManager.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Lauty\\SanityManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T23:34:51.551Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LockerSystem.cs",
+              "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\LockerSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\LockerSystem.cs",
+              "ToolTip": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\LockerSystem.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Lauty\\LockerSystem.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAmwF8AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T18:25:39.18Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "FlashLight.cs",
+              "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\FlashLight.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\FlashLight.cs",
+              "ToolTip": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\FlashLight.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Lauty\\FlashLight.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T23:33:09.13Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MouseLook.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\Camara\\MouseLook.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\Camara\\MouseLook.cs",
@@ -57,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "Outline.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\QuickOutline\\Scripts\\Outline.cs",
               "RelativeDocumentMoniker": "Assets\\QuickOutline\\Scripts\\Outline.cs",
@@ -69,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "ObjetoInteractivoBase.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\ObjetoInteractivoBase.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\ObjetoInteractivoBase.cs",
@@ -81,7 +159,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "ObjetoInteractivoBase.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\1st Proyect Summer 2026\\Assets\\_Scripts\\ObjetoInteractivoBase.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\1st Proyect Summer 2026\\Assets\\_Scripts\\ObjetoInteractivoBase.cs",
@@ -94,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "PlayerInteraction.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\Camara\\PlayerInteraction.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\Camara\\PlayerInteraction.cs",
@@ -106,20 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LockerSystem.cs",
-              "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\LockerSystem.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\LockerSystem.cs",
-              "ToolTip": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\LockerSystem.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Lauty\\LockerSystem.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAADwv1cAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-20T18:25:39.18Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "DoorScript.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Mauri\\DoorScript.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Mauri\\DoorScript.cs",
@@ -131,7 +196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "Interactable.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Lauty\\Interactable.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Lauty\\Interactable.cs",

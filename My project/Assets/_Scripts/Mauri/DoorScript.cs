@@ -13,8 +13,10 @@ public class DoorScript : ObjetoInteractivoBase
 
     [Header("Logica de Cerradura")]
     public bool isLocked = true;
+    public string requiredKeyId = "HospitalKey"; // <-- Agregamos el ID de la llave
     public AudioSource audioSource;
     public AudioClip lockedSound;
+    public AudioClip unlockSound; // <-- Opcional: Sonido de llave girando
 
     private bool mostrarCartelTrabada = false;
     private float timerCartel = 0f;
@@ -22,7 +24,7 @@ public class DoorScript : ObjetoInteractivoBase
     // --- IMPORTANTE: Usamos override y llamamos a la base ---
     protected override void Start()
     {
-        base.Start(); // Esto busca el Outline en el objeto
+        base.Start();
 
         if (pivot == null) pivot = transform;
         closedRotation = pivot.rotation;
@@ -44,29 +46,46 @@ public class DoorScript : ObjetoInteractivoBase
         }
     }
 
-    // Implementamos el mensaje requerido por la base
     public override string ObtenerMensaje()
     {
         if (mostrarCartelTrabada) return "Necesitas una llave...";
 
-        if (isLocked) return ""; // No mostramos nada hasta que interactúe
+        // Si está trabada, no mostramos nada (o podes poner "Abrir Puerta" si querés que prueben)
+        if (isLocked) return "";
 
         return isOpen ? "Cerrar puerta" : "Abrir puerta";
     }
 
-    // Implementamos la interacción requerida por la base
     public override void Interact(GameObject player)
     {
+        // 1. Si la puerta está trabada, intentamos destrabarla
         if (isLocked)
         {
-            if (audioSource != null && lockedSound != null)
-                audioSource.PlayOneShot(lockedSound);
+            PlayerInventory inventory = player.GetComponent<PlayerInventory>();
 
-            mostrarCartelTrabada = true;
-            timerCartel = 2f;
-            return;
+            // ¿Tiene el jugador la llave correcta?
+            if (inventory != null && inventory.HasKey(requiredKeyId))
+            {
+                // ¡Éxito! Destrabamos la puerta
+                isLocked = false;
+                Debug.Log("Puerta destrabada usando la llave: " + requiredKeyId);
+
+                if (audioSource != null && unlockSound != null)
+                    audioSource.PlayOneShot(unlockSound);
+            }
+            else
+            {
+                // No tiene la llave. Hacemos sonar la manija y mostramos el cartel
+                if (audioSource != null && lockedSound != null)
+                    audioSource.PlayOneShot(lockedSound);
+
+                mostrarCartelTrabada = true;
+                timerCartel = 2f;
+                return; // Cortamos la función acá para que no se abra
+            }
         }
 
+        // 2. Si llegamos acá, la puerta no está trabada (o la acabamos de destrabar)
         // Lógica de apertura/cierre
         isOpen = !isOpen;
         targetRotation = isOpen ? Quaternion.Euler(0, openAngle, 0) * closedRotation : closedRotation;

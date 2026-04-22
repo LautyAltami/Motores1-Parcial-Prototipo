@@ -11,6 +11,16 @@ public class LockerSystem : ObjetoInteractivoBase
     private bool isPlayerInside = false;
     private GameObject currentPlayer;
 
+    [Header("Referencias de Sistemas")]
+    public SanityManager sanityManager; // Arrastrá aquí el objeto que tiene la cordura
+
+    [Header("Configuración de Pánico")]
+    public float umbralRespiracion = 75f; // El límite que querés (70, 80, etc.)
+
+    [Header("Efectos de Sonido")]
+    public AudioSource audioSourceJugador;
+    public AudioClip respiracionCalma;
+
     [Header("Referencias de UI")]
     public GameObject interactPrompt;
     public TextMeshProUGUI textoDelPrompt;
@@ -82,14 +92,32 @@ public class LockerSystem : ObjetoInteractivoBase
 
         currentPlayer.transform.position = insidePosition.position;
         currentPlayer.transform.rotation = insidePosition.rotation;
-       /* ShadowAI monstruo = Object.FindFirstObjectByType<ShadowAI>();
+        
+       
+            
+            if (sanityManager != null)
+            {
+                sanityManager.isHidden = true;
 
-        if (monstruo != null)
-        {
-            // Le avisamos que nos escondimos y le pasamos el Transform de este casillero
-            monstruo.OnPlayerHidden(this.transform);
-        }
-       */
+                // 2. Revisamos si está asustado para poner el audio
+                if (sanityManager.currentSanity <= umbralRespiracion)
+                {
+                    if (audioSourceJugador != null && respiracionCalma != null)
+                    {
+                        audioSourceJugador.PlayOneShot(respiracionCalma);
+                    }
+                }
+            }
+        
+
+        /* ShadowAI monstruo = Object.FindFirstObjectByType<ShadowAI>();
+
+         if (monstruo != null)
+         {
+             // Le avisamos que nos escondimos y le pasamos el Transform de este casillero
+             monstruo.OnPlayerHidden(this.transform);
+         }
+        */
     }
 
     private void ExitLocker()
@@ -109,5 +137,10 @@ public class LockerSystem : ObjetoInteractivoBase
         currentPlayer = null;
 
         if (interactPrompt != null) interactPrompt.SetActive(false);
+
+        if (sanityManager != null)
+        {
+            sanityManager.isHidden = false;
+        }
     }
 }
