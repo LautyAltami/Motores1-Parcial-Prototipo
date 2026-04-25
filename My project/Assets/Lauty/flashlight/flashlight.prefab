@@ -263,13 +263,13 @@ MonoBehaviour:
   audioSource: {fileID: 3848996344977744281}
   sonidoClick: {fileID: 8300000, guid: 1ae5852788cabbe4dbf4df0da17d5f19, type: 3}
   sonidoFlash: {fileID: 8300000, guid: 754b615c229b4e7449313b294f438c98, type: 3}
-  intensidadFlash: 15
+  intensidadFlash: 3
   cooldownTotal: 5
   distanciaStun: 10
   radioDelCono: 1.5
   imagenCooldownUI: {fileID: 0}
   textoControlesLinterna: {fileID: 0}
-  mensajeControles: '[F] Linterna   |   [Click Der] Destello'
+  mensajeControles: '[F] Linterna     [Click Der] Destello'
 --- !u!114 &2977264247980308005
 MonoBehaviour:
   m_ObjectHideFlags: 0

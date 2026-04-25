@@ -7,6 +7,11 @@ public class PlayerControllerScript : MonoBehaviour
     [SerializeField] float moveVelocity = 5f;
     CharacterController characterController;
 
+    [Header("Sprint Config")]
+    [SerializeField] float sprintMultiplier = 1.8f;
+    [SerializeField] KeyCode sprintKey = KeyCode.LeftShift;
+    bool isSprinting = false;
+
     [Header("Gravity Config")]
     [SerializeField] float gravity = 9.81f;
     float fallVelocity;
@@ -34,8 +39,13 @@ public class PlayerControllerScript : MonoBehaviour
 
         if (move.magnitude > 1) move = move.normalized;
 
+        // Detectar si está corriendo (mantener Shift)
+        isSprinting = Input.GetKey(sprintKey);
+
+        float currentSpeed = moveVelocity * (isSprinting ? sprintMultiplier : 1f);
+
         // Juntamos el movimiento horizontal con la gravedad vertical
-        Vector3 finalVelocity = (move * moveVelocity) + (Vector3.up * fallVelocity);
+        Vector3 finalVelocity = (move * currentSpeed) + (Vector3.up * fallVelocity);
 
         characterController.Move(finalVelocity * Time.deltaTime);
     }

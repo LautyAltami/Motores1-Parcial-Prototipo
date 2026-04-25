@@ -13,11 +13,11 @@ GameObject:
   - component: {fileID: 8941994891203976614}
   - component: {fileID: 2875629336071896696}
   - component: {fileID: 333457973154085981}
-  - component: {fileID: 6962046272750073959}
   - component: {fileID: 6109922587180301544}
+  - component: {fileID: 6962046272750073959}
   m_Layer: 0
   m_Name: Shadow
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,6 +139,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6109922587180301544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2242202279632049753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c21addce665dda4aa6d92d85851b3b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  viewDistance: 25
+  viewAngle: 90
+  viewHeight: 1
+  despawnDelay: 3
 --- !u!54 &6962046272750073959
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -166,19 +182,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6109922587180301544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2242202279632049753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c21addce665dda4aa6d92d85851b3b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  viewDistance: 25
-  viewAngle: 90
-  viewHeight: 1
-  despawnDelay: 3

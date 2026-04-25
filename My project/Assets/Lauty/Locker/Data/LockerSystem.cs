@@ -142,5 +142,10 @@ public class LockerSystem : ObjetoInteractivoBase
         {
             sanityManager.isHidden = false;
         }
+            
+        if (audioSourceJugador != null && respiracionCalma != null)
+        { 
+                audioSourceJugador.Stop();
+        }
     }
 }
