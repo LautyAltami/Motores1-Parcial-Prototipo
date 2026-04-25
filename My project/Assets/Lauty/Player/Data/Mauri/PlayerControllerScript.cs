@@ -62,4 +62,11 @@ public class PlayerControllerScript : MonoBehaviour
             fallVelocity -= gravity * Time.deltaTime;
         }
     }
+
+    public void KillPlayer()
+    {
+        Debug.Log("Player murió");
+
+        Destroy(gameObject);
+    }
 }

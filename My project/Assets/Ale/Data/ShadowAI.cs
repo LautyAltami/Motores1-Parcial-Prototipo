@@ -9,6 +9,10 @@ public class ShadowAI : MonoBehaviour
     [Header("Behavior")]
     [SerializeField] private float despawnDelay = 3f;
 
+    [Header("Combat")]
+    [SerializeField] private float attackDistance = 5.5f;
+    [SerializeField] private float attackCooldown = 1.5f;
+
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip idleSound;
@@ -19,6 +23,8 @@ public class ShadowAI : MonoBehaviour
     private State currentState;
     private Coroutine stunCoroutine;
     private Coroutine despawnCoroutine;
+
+    private float attackTimer = 0f;
 
     private enum State
     {
@@ -37,6 +43,7 @@ public class ShadowAI : MonoBehaviour
     void Start()
     {
         FindPlayer();
+        StartChasing();
     }
 
     void Update()
@@ -54,6 +61,14 @@ public class ShadowAI : MonoBehaviour
             player = playerObj.transform;
     }
 
+    private void StartChasing()
+    {
+        if (player == null) return;
+
+        SetTarget(player);
+        currentState = State.Chasing;
+    }
+
     // ---------- STATE MACHINE ----------
 
     private void HandleState()
@@ -62,6 +77,7 @@ public class ShadowAI : MonoBehaviour
         {
             case State.Chasing:
                 FollowTarget();
+                TryAttack();
                 break;
 
             case State.Investigating:
@@ -70,7 +86,6 @@ public class ShadowAI : MonoBehaviour
                 break;
 
             case State.Waiting:
-                // quieto mirando
                 break;
 
             case State.Stunned:
@@ -98,7 +113,9 @@ public class ShadowAI : MonoBehaviour
         {
             agent.isStopped = true;
             LookAtTarget();
-            StartWaitingAndDespawn();
+
+            if (currentState != State.Waiting)
+                StartWaitingAndDespawn();
         }
     }
 
@@ -116,26 +133,32 @@ public class ShadowAI : MonoBehaviour
         currentTarget = target;
     }
 
-    // ---------- SPAWN (CLAVE) ----------
+    // ---------- COMBAT ----------
 
-    public void Spawn(Vector3 position)
+    private void TryAttack()
     {
-        transform.position = position;
-        gameObject.SetActive(true);
+        // 🔥 SOLO ataca si está persiguiendo
+        if (player == null || currentState != State.Chasing) return;
 
-        // IMPORTANTE: aseguramos que tenga player
-        if (player == null)
-            FindPlayer();
+        float distance = Vector3.Distance(transform.position, player.position);
 
-        StartChasing();
+        attackTimer -= Time.deltaTime;
+
+        if (distance <= attackDistance && attackTimer <= 0f)
+        {
+            AttackPlayer();
+            attackTimer = attackCooldown;
+        }
     }
 
-    private void StartChasing()
+    private void AttackPlayer()
     {
-        if (player == null) return;
+        var playerScript = player.GetComponent<PlayerControllerScript>();
 
-        SetTarget(player);
-        currentState = State.Chasing;
+        if (playerScript != null)
+        {
+            playerScript.KillPlayer(); // modular
+        }
     }
 
     // ---------- LOCKER ----------

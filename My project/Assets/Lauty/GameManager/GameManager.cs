@@ -48,14 +48,6 @@ public class GameManager : MonoBehaviour
                 puntoElegido.rotation
             );
 
-            // 🔥 CLAVE: obtener el ShadowAI y llamar Spawn
-            ShadowAI shadow = monstruoObj.GetComponent<ShadowAI>();
-
-            if (shadow != null)
-            {
-                shadow.Spawn(puntoElegido.position);
-            }
-
             AudioSource.PlayClipAtPoint(ScreamerSound, puntoElegido.position, VolumeScreamer);
 
             Debug.Log("Monstruo instanciado y activado correctamente en ID: " + indice);
