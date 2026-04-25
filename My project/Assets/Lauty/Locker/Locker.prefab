@@ -325,7 +325,7 @@ MonoBehaviour:
   sanityManager: {fileID: 0}
   umbralRespiracion: 75
   audioSourceJugador: {fileID: 8384846831918961923}
-  respiracionCalma: {fileID: 8300000, guid: 85c0ab5719bb141499e344e2a89270d1, type: 3}
+  respiracionCalma: {fileID: 8300000, guid: a9176fb8e82af1845bc4c28f4f7afae5, type: 3}
   interactPrompt: {fileID: 0}
   textoDelPrompt: {fileID: 0}
   scriptDeMirada: {fileID: 0}
