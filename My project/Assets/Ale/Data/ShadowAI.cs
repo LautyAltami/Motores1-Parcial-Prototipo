@@ -19,7 +19,6 @@ public class ShadowAI : MonoBehaviour
 
     private State currentState = State.Idle;
 
-    private bool hasAggro = false;
     private Coroutine stunCoroutine;
 
     private enum State
@@ -51,6 +50,8 @@ public class ShadowAI : MonoBehaviour
         HandleState();
     }
 
+    // ---------- STATE MACHINE ----------
+
     private void HandleState()
     {
         switch (currentState)
@@ -73,13 +74,14 @@ public class ShadowAI : MonoBehaviour
         }
     }
 
+    // ---------- DETECTION ----------
+
     private void DetectPlayer()
     {
         if (player == null) return;
 
         if (CanSeePlayer())
         {
-            hasAggro = true;
             SetTarget(player);
             currentState = State.Chasing;
         }
@@ -106,6 +108,8 @@ public class ShadowAI : MonoBehaviour
         return false;
     }
 
+    // ---------- MOVEMENT ----------
+
     private void FollowTarget()
     {
         if (currentTarget == null)
@@ -131,12 +135,10 @@ public class ShadowAI : MonoBehaviour
         currentTarget = target;
     }
 
-    // ---------- API ----------
+    // ---------- API (INTEGRACIÓN CON OTROS SISTEMAS) ----------
 
     public void OnPlayerHidden(Transform locker)
     {
-        hasAggro = false;
-
         SetTarget(locker);
         currentState = State.Investigating;
 
@@ -145,6 +147,9 @@ public class ShadowAI : MonoBehaviour
 
     public void Stun(float duration)
     {
+        if (player != null)
+            SetTarget(player);
+
         if (stunCoroutine != null)
             StopCoroutine(stunCoroutine);
 
@@ -160,14 +165,16 @@ public class ShadowAI : MonoBehaviour
 
         yield return new WaitForSeconds(duration);
 
-        currentState = hasAggro ? State.Chasing : State.Idle;
+        currentState = State.Chasing;
     }
 
     private IEnumerator DespawnAfterDelay()
     {
         yield return new WaitForSeconds(despawnDelay);
-        Destroy(gameObject); // 🔥 clave
+        Destroy(gameObject);
     }
+
+    // ---------- GIZMOS ----------
 
     void OnDrawGizmosSelected()
     {
