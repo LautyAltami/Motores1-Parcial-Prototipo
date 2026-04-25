@@ -6,26 +6,25 @@ public class ShadowAI : MonoBehaviour
 {
     private NavMeshAgent agent;
 
-    [Header("Vision")]
-    [SerializeField, Range(0f, 50f)] private float viewDistance = 20f;
-    [SerializeField, Range(0f, 90f)] private float viewAngle = 90f;
-    [SerializeField] private float viewHeight = 1f;
-
     [Header("Behavior")]
     [SerializeField] private float despawnDelay = 3f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip idleSound;
 
     private Transform player;
     private Transform currentTarget;
 
-    private State currentState = State.Idle;
-
+    private State currentState;
     private Coroutine stunCoroutine;
+    private Coroutine despawnCoroutine;
 
     private enum State
     {
-        Idle,
         Chasing,
         Investigating,
+        Waiting,
         Stunned
     }
 
@@ -37,17 +36,22 @@ public class ShadowAI : MonoBehaviour
 
     void Start()
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-
-        if (playerObj != null)
-            player = playerObj.transform;
-        else
-            Debug.LogWarning("Player not found.");
+        FindPlayer();
     }
 
     void Update()
     {
         HandleState();
+    }
+
+    // ---------- INIT ----------
+
+    private void FindPlayer()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObj != null)
+            player = playerObj.transform;
     }
 
     // ---------- STATE MACHINE ----------
@@ -56,56 +60,22 @@ public class ShadowAI : MonoBehaviour
     {
         switch (currentState)
         {
-            case State.Idle:
-                DetectPlayer();
-                break;
-
             case State.Chasing:
                 FollowTarget();
                 break;
 
             case State.Investigating:
                 FollowTarget();
-                CheckArrival();
+                CheckArrivalAtLocker();
+                break;
+
+            case State.Waiting:
+                // quieto mirando
                 break;
 
             case State.Stunned:
                 break;
         }
-    }
-
-    // ---------- DETECTION ----------
-
-    private void DetectPlayer()
-    {
-        if (player == null) return;
-
-        if (CanSeePlayer())
-        {
-            SetTarget(player);
-            currentState = State.Chasing;
-        }
-    }
-
-    private bool CanSeePlayer()
-    {
-        Vector3 direction = player.position - transform.position;
-        float distance = direction.magnitude;
-
-        if (distance > viewDistance) return false;
-
-        direction.Normalize();
-        float angle = Vector3.Angle(transform.forward, direction);
-        if (angle > viewAngle) return false;
-
-        Vector3 origin = transform.position + Vector3.up * viewHeight;
-
-        if (Physics.Raycast(origin, direction, out RaycastHit hit, viewDistance))
-        {
-            return hit.transform.CompareTag("Player");
-        }
-
-        return false;
     }
 
     // ---------- MOVEMENT ----------
@@ -122,12 +92,23 @@ public class ShadowAI : MonoBehaviour
         agent.SetDestination(currentTarget.position);
     }
 
-    private void CheckArrival()
+    private void CheckArrivalAtLocker()
     {
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             agent.isStopped = true;
+            LookAtTarget();
+            StartWaitingAndDespawn();
         }
+    }
+
+    private void LookAtTarget()
+    {
+        if (currentTarget == null) return;
+
+        Vector3 dir = (currentTarget.position - transform.position).normalized;
+        dir.y = 0;
+        transform.forward = dir;
     }
 
     private void SetTarget(Transform target)
@@ -135,15 +116,55 @@ public class ShadowAI : MonoBehaviour
         currentTarget = target;
     }
 
-    // ---------- API (INTEGRACIÓN CON OTROS SISTEMAS) ----------
+    // ---------- SPAWN (CLAVE) ----------
+
+    public void Spawn(Vector3 position)
+    {
+        transform.position = position;
+        gameObject.SetActive(true);
+
+        // IMPORTANTE: aseguramos que tenga player
+        if (player == null)
+            FindPlayer();
+
+        StartChasing();
+    }
+
+    private void StartChasing()
+    {
+        if (player == null) return;
+
+        SetTarget(player);
+        currentState = State.Chasing;
+    }
+
+    // ---------- LOCKER ----------
 
     public void OnPlayerHidden(Transform locker)
     {
         SetTarget(locker);
         currentState = State.Investigating;
-
-        StartCoroutine(DespawnAfterDelay());
     }
+
+    private void StartWaitingAndDespawn()
+    {
+        if (despawnCoroutine != null) return;
+
+        currentState = State.Waiting;
+
+        if (audioSource != null && idleSound != null)
+            audioSource.PlayOneShot(idleSound);
+
+        despawnCoroutine = StartCoroutine(DespawnAfterDelay());
+    }
+
+    private IEnumerator DespawnAfterDelay()
+    {
+        yield return new WaitForSeconds(despawnDelay);
+        Destroy(gameObject);
+    }
+
+    // ---------- STUN ----------
 
     public void Stun(float duration)
     {
@@ -166,23 +187,5 @@ public class ShadowAI : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         currentState = State.Chasing;
-    }
-
-    private IEnumerator DespawnAfterDelay()
-    {
-        yield return new WaitForSeconds(despawnDelay);
-        Destroy(gameObject);
-    }
-
-    // ---------- GIZMOS ----------
-
-    void OnDrawGizmosSelected()
-    {
-        Vector3 left = Quaternion.Euler(0, -viewAngle, 0) * transform.forward;
-        Vector3 right = Quaternion.Euler(0, viewAngle, 0) * transform.forward;
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawLine(transform.position, transform.position + left * viewDistance);
-        Gizmos.DrawLine(transform.position, transform.position + right * viewDistance);
     }
 }

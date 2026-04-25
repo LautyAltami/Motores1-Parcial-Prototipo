@@ -110,14 +110,14 @@ public class LockerSystem : ObjetoInteractivoBase
             }
         
 
-        /* ShadowAI monstruo = Object.FindFirstObjectByType<ShadowAI>();
+        ShadowAI monstruo = Object.FindFirstObjectByType<ShadowAI>();
 
          if (monstruo != null)
          {
              // Le avisamos que nos escondimos y le pasamos el Transform de este casillero
              monstruo.OnPlayerHidden(this.transform);
          }
-        */
+
     }
 
     private void ExitLocker()

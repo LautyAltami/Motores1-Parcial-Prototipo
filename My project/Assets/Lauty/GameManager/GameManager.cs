@@ -1,26 +1,26 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using System;
 using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("ConfiguraciÛn del Monstruo")]
-    public GameObject monstruoPrefab; // Arrastr· el prefab del monstruo ac·
+    [Header("Configuraci√≥n del Monstruo")]
+    public GameObject monstruoPrefab; // Arrastr√° el prefab del monstruo ac√°
 
-    [Header("ConfiguraciÛn de Audio")]
+    [Header("Configuraci√≥n de Audio")]
     public AudioClip ScreamerSound;
     public float VolumeScreamer = 1.0f;
     public AudioSource musicaTension;
 
-    [Header("Puntos de ApariciÛn")]
+    [Header("Puntos de Aparici√≥n")]
     // Esta lista te permite agregar 3, 20 o 50 puntos desde el Inspector
     public List<Transform> puntosDeSpawn;
 
 
-    // El evento ahora transporta un n˙mero entero (el ID del spawn)
+    // El evento ahora transporta un n√∫mero entero (el ID del spawn)
     public static event Action<int> OnMonstruoSpawnea;
 
-    // MÈtodo que llaman los triggers
+    // M√©todo que llaman los triggers
     public static void DispararSpawn(int idSpawn)
     {
         OnMonstruoSpawnea?.Invoke(idSpawn);
@@ -38,19 +38,31 @@ public class GameManager : MonoBehaviour
 
     private void InstanciarMonstruo(int indice)
     {
-        // Seguridad: verificamos que el Ìndice exista en la lista para evitar crasheos
         if (indice >= 0 && indice < puntosDeSpawn.Count)
         {
             Transform puntoElegido = puntosDeSpawn[indice];
 
-            // Instanciamos el monstruo en la posiciÛn y rotaciÛn del punto elegido
-            Instantiate(monstruoPrefab, puntoElegido.position, puntoElegido.rotation);
+            GameObject monstruoObj = Instantiate(
+                monstruoPrefab,
+                puntoElegido.position,
+                puntoElegido.rotation
+            );
+
+            // üî• CLAVE: obtener el ShadowAI y llamar Spawn
+            ShadowAI shadow = monstruoObj.GetComponent<ShadowAI>();
+
+            if (shadow != null)
+            {
+                shadow.Spawn(puntoElegido.position);
+            }
+
             AudioSource.PlayClipAtPoint(ScreamerSound, puntoElegido.position, VolumeScreamer);
-            Debug.Log("Monstruo instanciado con Èxito en el punto ID: " + indice);
+
+            Debug.Log("Monstruo instanciado y activado correctamente en ID: " + indice);
         }
         else
         {
-            Debug.LogWarning("El ID de spawn " + indice + " no existe en la lista del GameManager.");
+            Debug.LogWarning("El ID de spawn " + indice + " no existe.");
         }
     }
 }
