@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2242202279632049753}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -127,7 +127,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -334000983
   m_Radius: 0.3
-  m_Speed: 7.5
+  m_Speed: 7
   m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 150
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c21addce665dda4aa6d92d85851b3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  despawnDelay: 3
+  despawnDelay: 2
   attackDistance: 4
   attackCooldown: 1.5
   audioSource: {fileID: 0}

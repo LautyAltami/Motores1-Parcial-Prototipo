@@ -137,7 +137,7 @@ public class ShadowAI : MonoBehaviour
 
     private void TryAttack()
     {
-        // 🔥 SOLO ataca si está persiguiendo
+        // SOLO ataca si está persiguiendo
         if (player == null || currentState != State.Chasing) return;
 
         float distance = Vector3.Distance(transform.position, player.position);

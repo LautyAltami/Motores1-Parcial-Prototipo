@@ -22,8 +22,11 @@ public class Flashlight : ObjetoInteractivoBase
     public float intensidadFlash = 15f;
     public float cooldownTotal = 5f;
     private float timerCooldown = 0f;
-    public float distanciaStun = 10f;
     public float radioDelCono = 1.5f;
+    public float distanciaStun = 10f;
+    public float duracionStun = 3f;
+    
+    
 
     [Header("Feedback Visual")]
     public Image imagenCooldownUI;
@@ -130,18 +133,31 @@ public class Flashlight : ObjetoInteractivoBase
 
         // 3. Detectar si le pegamos al monstruo (SphereCast)
         RaycastHit hit;
+
+        Vector3 origin = Camera.main.transform.position;
+        Vector3 direction = Camera.main.transform.forward;
+
+        if (Physics.SphereCast(origin, radioDelCono, direction, out hit, distanciaStun))
+        {
+            ShadowAI monstruo = hit.collider.GetComponentInParent<ShadowAI>();
+
+            if (monstruo != null)
+            {
+                monstruo.Stun(2.5f);
+            }
+        }
+        /* RaycastHit hit;
         if (Physics.SphereCast(transform.position, radioDelCono, transform.forward, out hit, distanciaStun))
         {
             // TODO: Descomentar esto cuando unas el proyecto con tu compañero
-            /*
             ShadowAI monstruo = hit.collider.GetComponentInParent<ShadowAI>();
             if (monstruo != null)
             {
                 monstruo.Stun(2.5f);
                 Debug.Log("¡Le pegaste al monstruo!");
             }
-            */
         }
+        */
 
         // 4. Esperamos 0.2 segundos y devolvemos la luz a la normalidad
         yield return new WaitForSeconds(0.2f);

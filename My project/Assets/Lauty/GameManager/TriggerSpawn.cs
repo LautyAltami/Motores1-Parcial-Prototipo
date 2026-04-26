@@ -1,19 +1,38 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class TriggerSpawn : MonoBehaviour
 {
-    [Tooltip("El ID debe coincidir con el orden en la lista del GameManager (0, 1, 2...)")]
     public int idDeEsteSpawn;
+
+    [Header("Condiciones")]
+    public bool requiereLlave = false;
+    public string keyId = "HospitalKey";
+
+    public bool requiereLinterna = false;
+
+    private bool activado = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            // Le gritamos al GameManager pasándole nuestro ID específico
-            GameManager.DispararSpawn(idDeEsteSpawn);
+        if (activado) return;
+        if (!other.CompareTag("Player")) return;
 
-            // Destruimos este trigger para que no genere monstruos infinitos al volver a pisarlo
-            Destroy(gameObject);
-        }
+        PlayerInventory inventory = other.GetComponent<PlayerInventory>();
+        Flashlight flashlight = other.GetComponentInChildren<Flashlight>();
+
+        // CHECK DE CONDICIONES
+        if (requiereLlave && (inventory == null || !inventory.HasKey(keyId)))
+            return;
+
+        if (requiereLinterna && (flashlight == null || !flashlight.estaEquipada))
+            return;
+
+        // TODO OK â†’ SPAWN
+        activado = true;
+
+        GameManager.DispararSpawn(idDeEsteSpawn);
+
+        GetComponent<Collider>().enabled = false;
+        Destroy(gameObject);
     }
 }
