@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
     // El evento ahora transporta un número entero (el ID del spawn)
     public static event Action<int> OnMonstruoSpawnea;
 
+    // Eventos para ganar o perder el juego (pueden ser llamados desde otros scripts)
+    public static event Action OnGameWin;
+    public static event Action OnGameLose;
+
     // Método que llaman los triggers
     public static void DispararSpawn(int idSpawn)
     {
@@ -56,5 +60,14 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("El ID de spawn " + indice + " no existe.");
         }
+    }
+    public static void DispararVictoria()
+    {
+        OnGameWin?.Invoke();
+    }
+
+    public static void DispararDerrota()
+    {
+        OnGameLose?.Invoke();
     }
 }

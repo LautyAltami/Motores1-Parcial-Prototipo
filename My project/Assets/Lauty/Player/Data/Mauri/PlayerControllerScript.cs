@@ -65,8 +65,6 @@ public class PlayerControllerScript : MonoBehaviour
 
     public void KillPlayer()
     {
-        Debug.Log("Player murió");
-
-        Destroy(gameObject);
+        GameManager.DispararDerrota();
     }
 }

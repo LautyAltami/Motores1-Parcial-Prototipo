@@ -15,7 +15,8 @@ public class ShadowAI : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip idleSound;
+    [SerializeField] private AudioClip idleSound; // sonido al esperar (locker)
+    [SerializeField] private AudioClip loopSound; // sonido constante
 
     private Transform player;
     private Transform currentTarget;
@@ -44,6 +45,7 @@ public class ShadowAI : MonoBehaviour
     {
         FindPlayer();
         StartChasing();
+        StartLoopAudio(); // arranca sonido ambiente
     }
 
     void Update()
@@ -67,6 +69,16 @@ public class ShadowAI : MonoBehaviour
 
         SetTarget(player);
         currentState = State.Chasing;
+    }
+
+    private void StartLoopAudio()
+    {
+        if (audioSource != null && loopSound != null)
+        {
+            audioSource.clip = loopSound;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
     }
 
     // ---------- STATE MACHINE ----------
@@ -137,7 +149,6 @@ public class ShadowAI : MonoBehaviour
 
     private void TryAttack()
     {
-        // SOLO ataca si está persiguiendo
         if (player == null || currentState != State.Chasing) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
@@ -157,7 +168,7 @@ public class ShadowAI : MonoBehaviour
 
         if (playerScript != null)
         {
-            playerScript.KillPlayer(); // modular
+            playerScript.KillPlayer();
         }
     }
 
@@ -175,6 +186,7 @@ public class ShadowAI : MonoBehaviour
 
         currentState = State.Waiting;
 
+        // sonido puntual
         if (audioSource != null && idleSound != null)
             audioSource.PlayOneShot(idleSound);
 
