@@ -147,5 +147,13 @@ public class LockerSystem : ObjetoInteractivoBase
         { 
                 audioSourceJugador.Stop();
         }
+
+        ShadowAI monstruo = Object.FindFirstObjectByType<ShadowAI>();
+
+        if (monstruo != null)
+        {
+            // Asigna a Player como target y vuelve al state.Chasing
+            monstruo.OffPlayerHidden();
+        }
     }
 }

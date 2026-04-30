@@ -1,11 +1,16 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Configuración del Monstruo")]
+    /*
     public GameObject monstruoPrefab; // Arrastrá el prefab del monstruo acá
+    */
+    public GameObject shadowObject; // Shadow es un objeto presente permanentemente activo en la escena,
+                                    // una ves termina lo suyo se desactiva.
 
     [Header("Configuración de Audio")]
     public AudioClip ScreamerSound;
@@ -46,11 +51,25 @@ public class GameManager : MonoBehaviour
         {
             Transform puntoElegido = puntosDeSpawn[indice];
 
+            /*
             GameObject monstruoObj = Instantiate(
                 monstruoPrefab,
                 puntoElegido.position,
                 puntoElegido.rotation
+            reemplazar las siguientes CUATRO lineas de codigo por estas de arriba si se desea volver al Instancia comun, la referencia publica de shadow tmb debe cambiar a por el prefab original
             );
+            */
+            NavMeshAgent agent = shadowObject.GetComponent<NavMeshAgent>();
+            ShadowAI ai = shadowObject.GetComponent<ShadowAI>();
+            ai.ResetState();
+            shadowObject.SetActive(true);
+
+            agent.enabled = false;
+            shadowObject.transform.position = puntoElegido.position;
+            shadowObject.transform.rotation = puntoElegido.rotation;
+            agent.enabled = true;
+
+            agent.Warp(puntoElegido.position);
 
             AudioSource.PlayClipAtPoint(ScreamerSound, puntoElegido.position, VolumeScreamer);
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using static Unity.VisualScripting.Member;
 
 public class ShadowAI : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class ShadowAI : MonoBehaviour
     private State currentState;
     private Coroutine stunCoroutine;
     private Coroutine despawnCoroutine;
+    private bool isStunned = false;
+    private bool despawnIsParable = true;
 
     private float attackTimer = 0f;
 
@@ -115,13 +118,14 @@ public class ShadowAI : MonoBehaviour
             return;
         }
 
-        agent.isStopped = false;
+        if(!isStunned) agent.isStopped = false;
+
         agent.SetDestination(currentTarget.position);
     }
 
     private void CheckArrivalAtLocker()
     {
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance && (!agent.hasPath || agent.velocity.sqrMagnitude == 0f))
         {
             agent.isStopped = true;
             LookAtTarget();
@@ -179,6 +183,14 @@ public class ShadowAI : MonoBehaviour
         SetTarget(locker);
         currentState = State.Investigating;
     }
+    public void OffPlayerHidden()
+    {
+        if(despawnIsParable)
+        {
+            SetTarget(player);
+            currentState = State.Chasing;
+        }
+    }
 
     private void StartWaitingAndDespawn()
     {
@@ -186,17 +198,22 @@ public class ShadowAI : MonoBehaviour
 
         currentState = State.Waiting;
 
+        despawnCoroutine = StartCoroutine(DespawnAfterDelay());
+    }
+
+    private IEnumerator DespawnAfterDelay() //Primero esperará a que la espera del despawn termine para comenzar reproducir el sonido de muerte, una vez que este suene no habra forma de parar la muerte
+    {
+        yield return new WaitForSeconds(despawnDelay);
+
         // sonido puntual
         if (audioSource != null && idleSound != null)
             audioSource.PlayOneShot(idleSound);
 
-        despawnCoroutine = StartCoroutine(DespawnAfterDelay());
-    }
+        despawnIsParable = false;
+        yield return new WaitForSeconds(idleSound.length);
 
-    private IEnumerator DespawnAfterDelay()
-    {
-        yield return new WaitForSeconds(despawnDelay);
-        Destroy(gameObject);
+        //Reemplazar por un Destroy(gameObject); si el formato pool en gamemanager está sin aplicar
+        gameObject.SetActive(false);
     }
 
     // ---------- STUN ----------
@@ -214,13 +231,61 @@ public class ShadowAI : MonoBehaviour
 
     private IEnumerator StunRoutine(float duration)
     {
-        currentState = State.Stunned;
 
         agent.isStopped = true;
-        agent.ResetPath();
+        isStunned = true;
 
         yield return new WaitForSeconds(duration);
 
+        isStunned = false;
+    }
+    public void ResetState() // Si el spawn de este gameobject NO es un tipo POOL, no utilizar esta función de reinicio de parametros y corrutinas
+    {
+        // --- COROUTINES ---
+        if (stunCoroutine != null)
+        {
+            StopCoroutine(stunCoroutine);
+            stunCoroutine = null;
+        }
+
+        if (despawnCoroutine != null)
+        {
+            StopCoroutine(despawnCoroutine);
+            despawnCoroutine = null;
+        }
+        // --- CONDITIONS ---
+        despawnIsParable = true;
+        isStunned = false;
+
+        // --- NAVMESH ---
+        if (agent != null)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+        }
+
+        // --- TIMERS ---
+        attackTimer = 0f;
+
+        // --- TARGETS ---
+        currentTarget = null;
+
+        // --- ESTADO ---
         currentState = State.Chasing;
+
+        // --- PLAYER ---
+        FindPlayer(); // reacquire por si cambió la referencia
+
+        if (player != null)
+        {
+            SetTarget(player);
+        }
+
+        // --- AUDIO ---
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+            StartLoopAudio();
+        }
     }
 }
