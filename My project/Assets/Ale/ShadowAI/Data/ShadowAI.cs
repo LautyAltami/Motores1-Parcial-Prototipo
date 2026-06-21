@@ -23,7 +23,7 @@ public class ShadowAI : MonoBehaviour
     // Manda el Transform del locker donde desapareció, asi cada puerta puede
     // chequear si le corresponde a ella reaccionar o no.
     public static event Action<Transform> OnDespawn;
-
+    public bool IsChasing => currentState == State.Chasing;
     private Transform player;
     private Transform currentTarget;
     private Transform lockerActual; // Guardamos referencia al locker donde nos escondimos
