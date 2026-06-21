@@ -1,66 +1,78 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Configuración del Monstruo")]
-    public GameObject monstruoPrefab; // Arrastrá el prefab del monstruo acá
+    public GameObject monstruoPrefab;
 
     [Header("Configuración de Audio")]
     public AudioClip ScreamerSound;
     public float VolumeScreamer = 1.0f;
     public AudioSource musicaTension;
 
-    [Header("Puntos de Aparición")]
-    // Esta lista te permite agregar 3, 20 o 50 puntos desde el Inspector
-    public List<Transform> puntosDeSpawn;
+    // Evento cuando aparece un monstruo
+    public static event Action<GameObject> OnMonstruoSpawnea;
 
-
-    // El evento ahora transporta un número entero (el ID del spawn)
-    public static event Action<int> OnMonstruoSpawnea;
-
-    // Eventos para ganar o perder el juego (pueden ser llamados desde otros scripts)
+    // Eventos de victoria y derrota
     public static event Action OnGameWin;
     public static event Action OnGameLose;
 
-    // Método que llaman los triggers
-    public static void DispararSpawn(int idSpawn)
+    public static void DispararSpawn(SpawnPoint spawn)
     {
-        OnMonstruoSpawnea?.Invoke(idSpawn);
-    }
-
-    private void OnEnable()
-    {
-        OnMonstruoSpawnea += InstanciarMonstruo;
-    }
-
-    private void OnDisable()
-    {
-        OnMonstruoSpawnea -= InstanciarMonstruo;
-    }
-
-    private void InstanciarMonstruo(int indice)
-    {
-        if (indice >= 0 && indice < puntosDeSpawn.Count)
+        if (spawn == null)
         {
-            Transform puntoElegido = puntosDeSpawn[indice];
+            Debug.LogWarning("SpawnPoint nulo.");
+            return;
+        }
 
-            GameObject monstruoObj = Instantiate(
-                monstruoPrefab,
-                puntoElegido.position,
-                puntoElegido.rotation
+        GameManager gm = FindFirstObjectByType<GameManager>();
+
+        if (gm == null)
+        {
+            Debug.LogWarning("No se encontró un GameManager en la escena.");
+            return;
+        }
+
+        gm.InstanciarMonstruo(spawn);
+    }
+
+    private void InstanciarMonstruo(SpawnPoint spawn)
+    {
+        if (monstruoPrefab == null)
+        {
+            Debug.LogWarning("No hay monstruoPrefab asignado.");
+            return;
+        }
+
+        if (spawn.spawnPosition == null)
+        {
+            Debug.LogWarning($"El SpawnPoint '{spawn.name}' no tiene SpawnPosition asignado.");
+            return;
+        }
+
+        Transform punto = spawn.spawnPosition;
+
+        GameObject monstruoObj = Instantiate(
+            monstruoPrefab,
+            punto.position,
+            punto.rotation
+        );
+
+        if (ScreamerSound != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                ScreamerSound,
+                punto.position,
+                VolumeScreamer
             );
-
-            AudioSource.PlayClipAtPoint(ScreamerSound, puntoElegido.position, VolumeScreamer);
-
-            Debug.Log("Monstruo instanciado y activado correctamente en ID: " + indice);
         }
-        else
-        {
-            Debug.LogWarning("El ID de spawn " + indice + " no existe.");
-        }
+
+        Debug.Log($"Monstruo instanciado en {spawn.name}");
+
+        OnMonstruoSpawnea?.Invoke(monstruoObj);
     }
+
     public static void DispararVictoria()
     {
         OnGameWin?.Invoke();

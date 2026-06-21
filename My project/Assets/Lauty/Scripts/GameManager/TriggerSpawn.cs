@@ -2,7 +2,8 @@
 
 public class TriggerSpawn : MonoBehaviour
 {
-    public int idDeEsteSpawn;
+    [Header("Spawn")]
+    public SpawnPoint spawnPoint;
 
     [Header("Condiciones")]
     public bool requiereLlave = false;
@@ -14,23 +15,32 @@ public class TriggerSpawn : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (activado) return;
-        if (!other.CompareTag("Player")) return;
+        if (activado)
+            return;
+
+        if (!other.CompareTag("Player"))
+            return;
 
         PlayerInventory inventory = other.GetComponent<PlayerInventory>();
         Flashlight flashlight = other.GetComponentInChildren<Flashlight>();
 
-        // CHECK DE CONDICIONES
-        if (requiereLlave && (inventory == null || !inventory.HasKey(keyId)))
+        // Verificar llave
+        if (requiereLlave &&
+            (inventory == null || !inventory.HasKey(keyId)))
+        {
             return;
+        }
 
-        if (requiereLinterna && (flashlight == null || !flashlight.estaEquipada))
+        // Verificar linterna
+        if (requiereLinterna &&
+            (flashlight == null || !flashlight.estaEquipada))
+        {
             return;
+        }
 
-        // TODO OK → SPAWN
         activado = true;
 
-        GameManager.DispararSpawn(idDeEsteSpawn);
+        GameManager.DispararSpawn(spawnPoint);
 
         GetComponent<Collider>().enabled = false;
         Destroy(gameObject);
