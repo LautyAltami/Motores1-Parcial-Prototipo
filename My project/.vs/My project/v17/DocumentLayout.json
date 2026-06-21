@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lauty\\documents\\github\\motores1-parcial-prototipo\\my project\\assets\\scripts\\puertasdobles\\newmonobehaviourscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\puertasdobles\\newmonobehaviourscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lauty\\documents\\github\\motores1-parcial-prototipo\\my project\\assets\\lauty\\interactables\\locker\\data\\lockersystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\lauty\\interactables\\locker\\data\\lockersystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\assets\\lauty\\interactables\\doblepuerta\\data\\doubledooraudio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\lauty\\interactables\\doblepuerta\\data\\doubledooraudio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Library\\PackageCache\\com.unity.cloud.gltfast@0847aee0f6da\\Editor\\Scripts\\GltfImporter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.unity.cloud.gltfast@0847aee0f6da\\Editor\\Scripts\\GltfImporter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -39,6 +51,44 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "NewMonoBehaviourScript.cs",
+              "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Scripts\\PuertasDobles\\NewMonoBehaviourScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PuertasDobles\\NewMonoBehaviourScript.cs",
+              "ToolTip": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Scripts\\PuertasDobles\\NewMonoBehaviourScript.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PuertasDobles\\NewMonoBehaviourScript.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAvwF0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T15:08:24.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LockerSystem.cs",
+              "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Lauty\\Interactables\\Locker\\Data\\LockerSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\Lauty\\Interactables\\Locker\\Data\\LockerSystem.cs",
+              "ToolTip": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Lauty\\Interactables\\Locker\\Data\\LockerSystem.cs",
+              "RelativeToolTip": "Assets\\Lauty\\Interactables\\Locker\\Data\\LockerSystem.cs",
+              "ViewState": "AgIAAG8AAAAAAAAAAADwv5YAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T14:48:30.485Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DoubleDoorAudio.cs",
+              "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Lauty\\Interactables\\DoblePuerta\\Data\\DoubleDoorAudio.cs",
+              "RelativeDocumentMoniker": "Assets\\Lauty\\Interactables\\DoblePuerta\\Data\\DoubleDoorAudio.cs",
+              "ToolTip": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Lauty\\Interactables\\DoblePuerta\\Data\\DoubleDoorAudio.cs",
+              "RelativeToolTip": "Assets\\Lauty\\Interactables\\DoblePuerta\\Data\\DoubleDoorAudio.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAUwCkAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-20T15:12:10.98Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "GltfImporter.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Library\\PackageCache\\com.unity.cloud.gltfast@0847aee0f6da\\Editor\\Scripts\\GltfImporter.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.cloud.gltfast@0847aee0f6da\\Editor\\Scripts\\GltfImporter.cs",
@@ -51,7 +101,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "MaterialExport.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Library\\PackageCache\\com.unity.cloud.gltfast@92828f845157\\Runtime\\Scripts\\Export\\MaterialExport.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.cloud.gltfast@92828f845157\\Runtime\\Scripts\\Export\\MaterialExport.cs",
@@ -62,7 +112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "DoorOpen.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Lauty\\Interactables\\PuertaSimple\\Data\\DoorOpen.cs",
               "RelativeDocumentMoniker": "Assets\\Lauty\\Interactables\\PuertaSimple\\Data\\DoorOpen.cs",
@@ -74,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "DoorScriptLocked.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Lauty\\Interactables\\PuertaSimple\\Data\\DoorScriptLocked.cs",
               "RelativeDocumentMoniker": "Assets\\Lauty\\Interactables\\PuertaSimple\\Data\\DoorScriptLocked.cs",
@@ -86,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Door.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Lauty\\Casa\\Puertas\\Free Wood Door Pack\\Script\\Door.cs",
               "RelativeDocumentMoniker": "Assets\\Lauty\\Casa\\Puertas\\Free Wood Door Pack\\Script\\Door.cs",
@@ -98,7 +148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "DoorScript.cs",
               "DocumentMoniker": "C:\\Users\\Lauty\\Documents\\GitHub\\Motores1-Parcial-Prototipo\\My project\\Assets\\Lauty\\Interactables\\PuertaSimple\\Data\\DoorScript.cs",
               "RelativeDocumentMoniker": "Assets\\Lauty\\Interactables\\PuertaSimple\\Data\\DoorScript.cs",

@@ -28,7 +28,9 @@ AudioMixerSnapshotController:
   m_Name: Locura
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 5849f5977ab6dfa4ca3bedce0286856c
-  m_FloatValues: {}
+  m_FloatValues:
+    5209dca40d5e9bb4284cfadcd910861f: -4.9356413
+    5f186028b244e024e9675a84e582ba5b: -8.362404
   m_TransitionOverrides: {}
 --- !u!243 &-2829028255025985339
 AudioMixerGroupController:

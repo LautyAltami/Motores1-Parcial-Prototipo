@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,8 +19,14 @@ public class ShadowAI : MonoBehaviour
     [SerializeField] private AudioClip idleSound; // sonido al esperar (locker)
     [SerializeField] private AudioClip loopSound; // sonido constante
 
+    // --- NUEVO: evento estatico para avisar a quien le interese (puertas, etc) ---
+    // Manda el Transform del locker donde desapareció, asi cada puerta puede
+    // chequear si le corresponde a ella reaccionar o no.
+    public static event Action<Transform> OnDespawn;
+
     private Transform player;
     private Transform currentTarget;
+    private Transform lockerActual; // Guardamos referencia al locker donde nos escondimos
 
     private State currentState;
     private Coroutine stunCoroutine;
@@ -177,6 +184,7 @@ public class ShadowAI : MonoBehaviour
     public void OnPlayerHidden(Transform locker)
     {
         SetTarget(locker);
+        lockerActual = locker;
         currentState = State.Investigating;
     }
 
@@ -196,6 +204,11 @@ public class ShadowAI : MonoBehaviour
     private IEnumerator DespawnAfterDelay()
     {
         yield return new WaitForSeconds(despawnDelay);
+
+        // --- NUEVO: avisamos a quien este escuchando (ej: las puertas dobles) ---
+        // mandamos el locker especifico para que cada puerta sepa si le toca a ella o no.
+        OnDespawn?.Invoke(lockerActual);
+
         Destroy(gameObject);
     }
 
