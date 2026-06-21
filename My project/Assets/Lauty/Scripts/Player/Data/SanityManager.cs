@@ -41,12 +41,17 @@ public class SanityManager : MonoBehaviour
         GameManager.OnMonstruoSpawnea -= MonstruoAparecio;
     }
 
-    private void MonstruoAparecio(int idSpawn) // Ajustado para recibir el ID del evento que armamos
+    private void MonstruoAparecio(GameObject monstruo)
     {
-        GameObject obj = GameObject.FindGameObjectWithTag("Enemy");
-        if (obj != null) monster = obj.transform;
+        if (monstruo != null)
+        {
+            monster = monstruo.transform;
+        }
 
-        if (sanityBar != null) sanityBar.gameObject.SetActive(true);
+        if (sanityBar != null)
+        {
+            sanityBar.gameObject.SetActive(true);
+        }
     }
 
     void Start()
