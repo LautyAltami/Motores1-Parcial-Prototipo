@@ -6,60 +6,116 @@ using UnityEngine.AI;
 public class ShadowAI : MonoBehaviour
 {
     private NavMeshAgent agent;
+    private Animator animator;
 
     [Header("Behavior")]
     [SerializeField] private float despawnDelay = 3f;
 
     [Header("Combat")]
     [SerializeField] private float attackDistance = 5.5f;
-    [SerializeField] private float attackCooldown = 1.5f;
+
+    [Header("Locker")]
+    [SerializeField] private float lockerReachDistance = 2f;
 
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip idleSound; // sonido al esperar (locker)
-    [SerializeField] private AudioClip loopSound; // sonido constante
+    [SerializeField] private AudioClip idleSound;
+    [SerializeField] private AudioClip loopSound;
 
-    // Evento estatico para avisar a quien le interese (puertas, etc)
     public static event Action<Transform> OnDespawn;
-    public bool IsChasing => currentState == State.Chasing;
 
     private Transform player;
     private Transform currentTarget;
     private Transform lockerActual;
+    private bool playerIsHidden;
 
     private State currentState;
     private Coroutine stunCoroutine;
     private Coroutine despawnCoroutine;
 
-    private float attackTimer = 0f;
+
+    private string currentAnim = "";
 
     private enum State
     {
         Chasing,
         Investigating,
         Waiting,
-        Stunned
+        Stunned,
+        Dead
     }
 
-    void Awake()
+    private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
+
         agent.updateRotation = true;
     }
 
-    void Start()
+    private void Start()
     {
         FindPlayer();
         StartChasing();
         StartLoopAudio();
     }
 
-    void Update()
+    private void Update()
     {
         HandleState();
+        UpdateAnimations();
     }
 
-    // ---------- INIT ----------
+    // ---------------- ANIMATIONS ----------------
+
+    private void UpdateAnimations()
+    {
+        if (animator == null)
+            return;
+
+        string anim = currentAnim;
+
+        switch (currentState)
+        {
+            case State.Chasing:
+            case State.Investigating:
+                anim = "Walking";
+                break;
+
+            case State.Waiting:
+            case State.Stunned:
+                anim = "Idle";
+                break;
+
+            case State.Dead:
+                anim = "Death";
+                break;
+        }
+
+        PlayAnim(anim);
+    }
+
+    private void PlayAttack()
+    {
+        PlayAnim("Zombie Attack");
+    }
+
+    private void PlayDeath()
+    {
+        currentState = State.Dead;
+        PlayAnim("Death");
+    }
+
+    private void PlayAnim(string name)
+    {
+        if (currentAnim == name)
+            return;
+
+        animator.Play(name);
+        currentAnim = name;
+    }
+
+    // ---------------- INIT ----------------
 
     private void FindPlayer()
     {
@@ -71,7 +127,10 @@ public class ShadowAI : MonoBehaviour
 
     private void StartChasing()
     {
-        if (player == null) return;
+        if (player == null)
+            return;
+
+        agent.isStopped = false;
 
         SetTarget(player);
         currentState = State.Chasing;
@@ -87,7 +146,7 @@ public class ShadowAI : MonoBehaviour
         }
     }
 
-    // ---------- STATE MACHINE ----------
+    // ---------------- STATE MACHINE ----------------
 
     private void HandleState()
     {
@@ -104,14 +163,20 @@ public class ShadowAI : MonoBehaviour
                 break;
 
             case State.Waiting:
+                agent.isStopped = true;
                 break;
 
             case State.Stunned:
+                agent.isStopped = true;
+                break;
+
+            case State.Dead:
+                agent.isStopped = true;
                 break;
         }
     }
 
-    // ---------- MOVEMENT ----------
+    // ---------------- MOVEMENT ----------------
 
     private void FollowTarget()
     {
@@ -127,23 +192,40 @@ public class ShadowAI : MonoBehaviour
 
     private void CheckArrivalAtLocker()
     {
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (currentTarget == null)
+            return;
+
+        float distance =
+            Vector3.Distance(
+                transform.position,
+                currentTarget.position);
+
+        if (distance <= lockerReachDistance)
         {
             agent.isStopped = true;
+            agent.ResetPath();
+
             LookAtTarget();
 
             if (currentState != State.Waiting)
+            {
                 StartWaitingAndDespawn();
+            }
         }
     }
 
     private void LookAtTarget()
     {
-        if (currentTarget == null) return;
+        if (currentTarget == null)
+            return;
 
-        Vector3 dir = (currentTarget.position - transform.position).normalized;
+        Vector3 dir =
+            (currentTarget.position - transform.position).normalized;
+
         dir.y = 0;
-        transform.forward = dir;
+
+        if (dir != Vector3.zero)
+            transform.forward = dir;
     }
 
     private void SetTarget(Transform target)
@@ -151,26 +233,31 @@ public class ShadowAI : MonoBehaviour
         currentTarget = target;
     }
 
-    // ---------- COMBAT ----------
+    // ---------------- COMBAT ----------------
 
     private void TryAttack()
     {
-        if (player == null || currentState != State.Chasing) return;
+        if (player == null || currentState != State.Chasing)
+            return;
 
-        float distance = Vector3.Distance(transform.position, player.position);
+        float distance = Vector3.Distance(
+            transform.position,
+            player.position
+        );
 
-        attackTimer -= Time.deltaTime;
-
-        if (distance <= attackDistance && attackTimer <= 0f)
+        if (distance <= attackDistance)
         {
             AttackPlayer();
-            attackTimer = attackCooldown;
         }
     }
 
     private void AttackPlayer()
     {
-        var playerScript = player.GetComponent<PlayerControllerScript>();
+        agent.isStopped = true;
+        PlayAttack();
+
+        var playerScript =
+            player.GetComponent<PlayerControllerScript>();
 
         if (playerScript != null)
         {
@@ -178,64 +265,90 @@ public class ShadowAI : MonoBehaviour
         }
     }
 
-    // ---------- LOCKER ----------
+    // ---------------- LOCKER ----------------
 
     public void OnPlayerHidden(Transform locker)
     {
-        // FIX: si el jugador entra al locker, sale, y vuelve a entrar antes de
-        // que el monstruo despawnee del todo, despawnCoroutine puede quedar con
-        // una referencia "vieja" que bloquea el proximo StartWaitingAndDespawn().
-        // Reseteamos todo el estado de espera para que pueda volver a arrancar.
+        playerIsHidden = true;
+
+        lockerActual = locker;
+
+        // Si ya está esperando en ESTE locker, ignoramos
+        if (currentState == State.Waiting)
+            return;
+
+        SetTarget(locker);
+        currentState = State.Investigating;
+    }
+
+    public void OnPlayerExitedLocker()
+    {
+        playerIsHidden = false;
+
+        if (currentState != State.Waiting)
+            return;
+
         if (despawnCoroutine != null)
         {
             StopCoroutine(despawnCoroutine);
             despawnCoroutine = null;
         }
 
-        SetTarget(locker);
-        lockerActual = locker;
-        currentState = State.Investigating;
+        StartChasing();
     }
 
     private void StartWaitingAndDespawn()
     {
-        if (despawnCoroutine != null) return;
+        if (despawnCoroutine != null)
+            return;
 
         currentState = State.Waiting;
 
-        if (audioSource != null && idleSound != null)
-            audioSource.PlayOneShot(idleSound);
+        agent.isStopped = true;
+        agent.ResetPath();
 
-        despawnCoroutine = StartCoroutine(DespawnAfterDelay());
+        if (audioSource != null &&
+            idleSound != null)
+        {
+            audioSource.PlayOneShot(idleSound);
+        }
+
+        despawnCoroutine =
+            StartCoroutine(DespawnAfterDelay());
     }
 
     private IEnumerator DespawnAfterDelay()
     {
         yield return new WaitForSeconds(despawnDelay);
 
-        // Avisamos a quien este escuchando (las puertas dobles) antes de destruirnos
-        OnDespawn?.Invoke(lockerActual);
+        Debug.Log("Voy a morir");
 
-        // NOTA: no hace falta resetear despawnCoroutine a null aca abajo porque
-        // el objeto se destruye en la linea siguiente. El problema real era que
-        // si el jugador entraba/salia/volvia a entrar ANTES de que esta coroutine
-        // terminara, despawnCoroutine seguia con una referencia "vieja" y
-        // StartWaitingAndDespawn() cortaba con el "return" de arriba sin volver
-        // a arrancar el timer. Ver el fix de abajo en OnPlayerHidden.
+        // OnDespawn?.Invoke(lockerActual);
+        PlayDeath();
+
+        yield return new WaitForSeconds(1.5f);
+
+        Debug.Log("Me destruyo");
+
         Destroy(gameObject);
     }
 
-    // ---------- STUN ----------
+    // ---------------- STUN ----------------
 
     public void Stun(float duration)
     {
         if (player != null)
+        {
             SetTarget(player);
+        }
 
         if (stunCoroutine != null)
+        {
             StopCoroutine(stunCoroutine);
+        }
 
-        stunCoroutine = StartCoroutine(StunRoutine(duration));
+        stunCoroutine =
+            StartCoroutine(StunRoutine(duration));
     }
 
     private IEnumerator StunRoutine(float duration)
@@ -247,6 +360,6 @@ public class ShadowAI : MonoBehaviour
 
         yield return new WaitForSeconds(duration);
 
-        currentState = State.Chasing;
+        StartChasing();
     }
 }
