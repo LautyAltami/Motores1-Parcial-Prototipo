@@ -7696,7 +7696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd6deb9d334b794792ba66682e22871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  monstruoPrefab: {fileID: 2242202279632049753, guid: b94023345faa9f94aa46ab6459b505dc, type: 3}
+  monstruoPrefab: {fileID: 2806287220138390070, guid: b3fda9a99894d5644a167c899e7471f7, type: 3}
   ScreamerSound: {fileID: 8300000, guid: 6d9088bbc57bebd4bb879dfb22acc613, type: 3}
   VolumeScreamer: 1
   musicaTension: {fileID: 0}
