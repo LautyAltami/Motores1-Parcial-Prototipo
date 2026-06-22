@@ -133,6 +133,13 @@ public class LockerSystem : ObjetoInteractivoBase
         // Le avisamos a TU script de cámara que vuelva a la normalidad
         if (scriptDeMirada != null) scriptDeMirada.DesactivarModoLocker();
 
+        ShadowAI monstruo = Object.FindFirstObjectByType<ShadowAI>();
+
+        if (monstruo != null)
+        {
+            monstruo.OnPlayerExitedLocker();
+        }
+
         isPlayerInside = false;
         currentPlayer = null;
 
