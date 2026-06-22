@@ -22,6 +22,9 @@ public class ShadowAI : MonoBehaviour
     [SerializeField] private AudioClip idleSound;
     [SerializeField] private AudioClip loopSound;
 
+    // Evento estatico para avisar a quien le interese (puertas dobles, etc).
+    // Manda el Transform del locker especifico donde el monstruo despawneo,
+    // asi cada puerta puede chequear si le corresponde a ella reaccionar.
     public static event Action<Transform> OnDespawn;
 
     private Transform player;
@@ -30,13 +33,13 @@ public class ShadowAI : MonoBehaviour
     private bool playerIsHidden;
 
     private State currentState;
+
+    // Le permite al SanityManager (y a cualquier otro script) saber si el
+    // monstruo esta en estado Chasing. Una sola declaracion, no duplicada.
     public bool IsChasing => currentState == State.Chasing;
+
     private Coroutine stunCoroutine;
     private Coroutine despawnCoroutine;
-
-    
-    // Le permite al SanityManager saber si el monstruo está en estado Chasing
-    public bool IsChasing => currentState == State.Chasing;
 
     private string currentAnim = "";
 
@@ -277,7 +280,7 @@ public class ShadowAI : MonoBehaviour
 
         lockerActual = locker;
 
-        // Si ya está esperando en ESTE locker, ignoramos
+        // Si ya esta esperando en ESTE locker, ignoramos
         if (currentState == State.Waiting)
             return;
 
@@ -311,13 +314,9 @@ public class ShadowAI : MonoBehaviour
         agent.isStopped = true;
         agent.ResetPath();
 
-        if (audioSource != null &&
-            idleSound != null)
+        if (audioSource != null && idleSound != null)
         {
-            if (audioSource != null && idleSound != null)
-            {
-                audioSource.PlayOneShot(idleSound);
-            }
+            audioSource.PlayOneShot(idleSound);
         }
 
         despawnCoroutine =
@@ -330,7 +329,12 @@ public class ShadowAI : MonoBehaviour
 
         Debug.Log("Voy a morir");
 
-        // OnDespawn?.Invoke(lockerActual);
+        // Avisamos a las puertas dobles (y a quien escuche) que el monstruo
+        // se va, mandando el locker especifico donde sucedio. Esto tiene que
+        // pasar ANTES de la animacion de muerte, para que la puerta empiece
+        // a abrirse mientras el monstruo todavia se ve (efecto mas natural).
+        OnDespawn?.Invoke(lockerActual);
+
         PlayDeath();
 
         yield return new WaitForSeconds(1.5f);
