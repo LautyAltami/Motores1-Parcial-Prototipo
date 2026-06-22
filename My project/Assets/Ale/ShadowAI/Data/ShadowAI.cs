@@ -19,14 +19,13 @@ public class ShadowAI : MonoBehaviour
     [SerializeField] private AudioClip idleSound; // sonido al esperar (locker)
     [SerializeField] private AudioClip loopSound; // sonido constante
 
-    // --- NUEVO: evento estatico para avisar a quien le interese (puertas, etc) ---
-    // Manda el Transform del locker donde desapareció, asi cada puerta puede
-    // chequear si le corresponde a ella reaccionar o no.
+    // Evento estatico para avisar a quien le interese (puertas, etc)
     public static event Action<Transform> OnDespawn;
     public bool IsChasing => currentState == State.Chasing;
+
     private Transform player;
     private Transform currentTarget;
-    private Transform lockerActual; // Guardamos referencia al locker donde nos escondimos
+    private Transform lockerActual;
 
     private State currentState;
     private Coroutine stunCoroutine;
@@ -52,7 +51,7 @@ public class ShadowAI : MonoBehaviour
     {
         FindPlayer();
         StartChasing();
-        StartLoopAudio(); // arranca sonido ambiente
+        StartLoopAudio();
     }
 
     void Update()
@@ -183,6 +182,16 @@ public class ShadowAI : MonoBehaviour
 
     public void OnPlayerHidden(Transform locker)
     {
+        // FIX: si el jugador entra al locker, sale, y vuelve a entrar antes de
+        // que el monstruo despawnee del todo, despawnCoroutine puede quedar con
+        // una referencia "vieja" que bloquea el proximo StartWaitingAndDespawn().
+        // Reseteamos todo el estado de espera para que pueda volver a arrancar.
+        if (despawnCoroutine != null)
+        {
+            StopCoroutine(despawnCoroutine);
+            despawnCoroutine = null;
+        }
+
         SetTarget(locker);
         lockerActual = locker;
         currentState = State.Investigating;
@@ -194,7 +203,6 @@ public class ShadowAI : MonoBehaviour
 
         currentState = State.Waiting;
 
-        // sonido puntual
         if (audioSource != null && idleSound != null)
             audioSource.PlayOneShot(idleSound);
 
@@ -205,10 +213,15 @@ public class ShadowAI : MonoBehaviour
     {
         yield return new WaitForSeconds(despawnDelay);
 
-        // --- NUEVO: avisamos a quien este escuchando (ej: las puertas dobles) ---
-        // mandamos el locker especifico para que cada puerta sepa si le toca a ella o no.
+        // Avisamos a quien este escuchando (las puertas dobles) antes de destruirnos
         OnDespawn?.Invoke(lockerActual);
 
+        // NOTA: no hace falta resetear despawnCoroutine a null aca abajo porque
+        // el objeto se destruye en la linea siguiente. El problema real era que
+        // si el jugador entraba/salia/volvia a entrar ANTES de que esta coroutine
+        // terminara, despawnCoroutine seguia con una referencia "vieja" y
+        // StartWaitingAndDespawn() cortaba con el "return" de arriba sin volver
+        // a arrancar el timer. Ver el fix de abajo en OnPlayerHidden.
         Destroy(gameObject);
     }
 

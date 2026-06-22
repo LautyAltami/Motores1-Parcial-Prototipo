@@ -106,11 +106,7 @@ public class Flashlight : ObjetoInteractivoBase
             luzSpotlight.enabled = !luzSpotlight.enabled;
             if (audioSource != null && sonidoClick != null) audioSource.PlayOneShot(sonidoClick);
 
-            // Le avisamos al SanityManager si estamos iluminando o a oscuras
-            if (sanityManager != null)
-            {
-                sanityManager.hasLight = luzSpotlight.enabled;
-            }
+            
         }
 
         // --- DISPARO DEL FLASH (Click Derecho) ---

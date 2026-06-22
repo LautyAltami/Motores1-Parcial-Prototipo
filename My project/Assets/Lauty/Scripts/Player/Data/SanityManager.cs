@@ -9,35 +9,46 @@ public class SanityManager : MonoBehaviour
 
     [Header("Variables del Entorno")]
     public bool isHidden = false;
-    public bool hasLight = false;
 
     [Header("Tasas de Cambio")]
-    public float darknessDrainRate = 3f; // Cuánto drena la oscuridad por segundo
-    public float lockerRecoveryRate = 15f; // Cuánto recupera el locker por segundo (ajustable para que sea más rápido o más lento)
-    public float monsterMultiplier = 5f; // Cuánto aumenta el drenaje por cercanía al monstruo (ajustable para que sea un aumento suave o muy agresivo)
+    public float chasingDrainRate = 5f;
+    public float lockerRecoveryRate = 15f;
+    public float monsterMultiplier = 5f;
 
     [Header("UI Barra de Cordura")]
     public Image sanityBar;
 
-    [Header("Sistema de Audio Dinámico")]
+    [Header("Audio Ambiente (loops simples)")]
+    public AudioSource sourceExploracion;
+    public AudioSource sourceLocura;
+    public float velocidadFadeAmbiente = 2f;
+
+    [Header("Sistema de Audio Dinamico (cordura baja)")]
     public AudioSource sourceRespiracion;
     public AudioSource sourceSusurros;
+
+    // --- NUEVAS VARIABLES DE LATIDOS ---
+    public AudioSource sourceLatidos;
     [Range(0f, 100f)]
-    public float inicioSusurros = 50f; // A partir de qué nivel de cordura arrancan los susurros
-    public float velocidadFade = 2f;   // Qué tan suave es el cambio de volumen
+    public float inicioLatidos = 70f; // Empiezan a sonar antes que los susurros para ir avisando
+    public float minPitchLatidos = 1.0f; // Velocidad normal
+    public float maxPitchLatidos = 1.6f; // Taquicardia al 0% de cordura
+    // -----------------------------------
+
+    [Range(0f, 100f)]
+    public float inicioSusurros = 50f;
+    public float velocidadFade = 2f;
 
     private Transform monster;
+    private ShadowAI monsterAI;
 
-    // Nos suscribimos al evento de spawn del monstruo para saber cuándo aparece y activar la barra de cordura
     private void OnEnable()
     {
         GameManager.OnMonstruoSpawnea += MonstruoAparecio;
     }
 
-   // Nos desuscribimos del evento de spawn del monstruo para evitar errores al destruir este objeto
-   private void OnDisable()
+    private void OnDisable()
     {
-        
         GameManager.OnMonstruoSpawnea -= MonstruoAparecio;
     }
 
@@ -46,11 +57,7 @@ public class SanityManager : MonoBehaviour
         if (monstruo != null)
         {
             monster = monstruo.transform;
-        }
-
-        if (sanityBar != null)
-        {
-            sanityBar.gameObject.SetActive(true);
+            monsterAI = monstruo.GetComponent<ShadowAI>();
         }
     }
 
@@ -58,42 +65,44 @@ public class SanityManager : MonoBehaviour
     {
         if (sanityBar != null) sanityBar.gameObject.SetActive(false);
 
-        // Nos aseguramos que los audios estén loopeados pero muteados al inicio
         if (sourceRespiracion != null) { sourceRespiracion.loop = true; sourceRespiracion.volume = 0f; sourceRespiracion.Play(); }
         if (sourceSusurros != null) { sourceSusurros.loop = true; sourceSusurros.volume = 0f; sourceSusurros.Play(); }
+
+        // --- INICIAMOS EL LATIDO EN SILENCIO Y VELOCIDAD NORMAL ---
+        if (sourceLatidos != null) { sourceLatidos.loop = true; sourceLatidos.volume = 0f; sourceLatidos.pitch = minPitchLatidos; sourceLatidos.Play(); }
+
+        if (sourceExploracion != null) { sourceExploracion.loop = true; sourceExploracion.volume = 1f; sourceExploracion.Play(); }
+        if (sourceLocura != null) { sourceLocura.loop = true; sourceLocura.volume = 0f; sourceLocura.Play(); }
     }
 
     void Update()
     {
-        // --- LÓGICA DE CORDURA ---
+        bool monstruoPersiguiendo = monsterAI != null && monsterAI.IsChasing;
+
         if (isHidden)
         {
             currentSanity += lockerRecoveryRate * Time.deltaTime;
         }
-        // Si no está escondido, la cordura se drena por la oscuridad y la cercanía del monstruo
-        else
+        else if (monstruoPersiguiendo)
         {
-            float currentDrain = 0f;
-           
-            // Si no hay luz, drena cordura. Si hay luz, no drena por oscuridad.
-            if (!hasLight) currentDrain += darknessDrainRate;
-            
-            // La cercanía del monstruo aumenta el drenaje, pero solo si el monstruo existe
+            float currentDrain = chasingDrainRate;
+
             if (monster != null)
             {
                 float distance = Vector3.Distance(transform.position, monster.position);
-                // Si el monstruo está a menos de 10 unidades, empieza a drenar más rápido. A medida que se acerca, el drenaje aumenta exponencialmente.
                 if (distance < 10f)
                 {
                     currentDrain += monsterMultiplier * (10f / Mathf.Max(distance, 1f));
                 }
             }
+
             currentSanity -= currentDrain * Time.deltaTime;
         }
 
         currentSanity = Mathf.Clamp(currentSanity, 0f, 100f);
-        sanityBar.fillAmount = currentSanity / 100f;
-        // --- LLAMADA AL MÓDULO DE AUDIO ---
+
+        ActualizarBarraUI(monstruoPersiguiendo);
+        ActualizarAudioAmbiente(monstruoPersiguiendo);
         ActualizarAudioPsicologico();
 
         if (currentSanity <= 0 && canDieFromSanity)
@@ -102,9 +111,37 @@ public class SanityManager : MonoBehaviour
         }
     }
 
+    void ActualizarBarraUI(bool monstruoPersiguiendo)
+    {
+        if (sanityBar == null) return;
+
+        sanityBar.fillAmount = currentSanity / 100f;
+
+        if (monstruoPersiguiendo && !sanityBar.gameObject.activeSelf)
+        {
+            sanityBar.gameObject.SetActive(true);
+        }
+        else if (currentSanity >= 100f && sanityBar.gameObject.activeSelf)
+        {
+            sanityBar.gameObject.SetActive(false);
+        }
+    }
+
+    void ActualizarAudioAmbiente(bool monstruoPersiguiendo)
+    {
+        float volumenExploracionObjetivo = monstruoPersiguiendo ? 0f : 1f;
+        float volumenLocuraObjetivo = monstruoPersiguiendo ? 1f : 0f;
+
+        if (sourceExploracion != null)
+            sourceExploracion.volume = Mathf.Lerp(sourceExploracion.volume, volumenExploracionObjetivo, Time.deltaTime * velocidadFadeAmbiente);
+
+        if (sourceLocura != null)
+            sourceLocura.volume = Mathf.Lerp(sourceLocura.volume, volumenLocuraObjetivo, Time.deltaTime * velocidadFadeAmbiente);
+    }
+
     void ActualizarAudioPsicologico()
     {
-        // 1. Lógica de Susurros (Para el juego en general, cuando estás bajo de cordura)
+        // 1. SUSURROS
         float volumenSusurrosObjetivo = 0f;
         if (currentSanity <= inicioSusurros)
         {
@@ -116,10 +153,30 @@ public class SanityManager : MonoBehaviour
             sourceSusurros.volume = Mathf.Lerp(sourceSusurros.volume, volumenSusurrosObjetivo, Time.deltaTime * velocidadFade);
         }
 
-        // 2. Lógica de Respiración (EXCLUSIVA DEL CASILLERO)
+        // --- 2. LATIDOS (VOLUMEN Y PITCH DINÁMICO) ---
+        float volumenLatidosObjetivo = 0f;
+        float pitchLatidosObjetivo = minPitchLatidos;
+
+        if (currentSanity <= inicioLatidos)
+        {
+            // Calcula un factor de 0 a 1 dependiendo de qué tan baja esté la cordura
+            float factorLatido = Mathf.InverseLerp(inicioLatidos, 0f, currentSanity);
+
+            volumenLatidosObjetivo = factorLatido;
+            // Acelera el audio interpolando entre el minPitch y el maxPitch
+            pitchLatidosObjetivo = Mathf.Lerp(minPitchLatidos, maxPitchLatidos, factorLatido);
+        }
+
+        if (sourceLatidos != null)
+        {
+            sourceLatidos.volume = Mathf.Lerp(sourceLatidos.volume, volumenLatidosObjetivo, Time.deltaTime * velocidadFade);
+            sourceLatidos.pitch = Mathf.Lerp(sourceLatidos.pitch, pitchLatidosObjetivo, Time.deltaTime * velocidadFade);
+        }
+        // ----------------------------------------------
+
+        // 3. RESPIRACIÓN (Cuando estás escondido)
         if (isHidden)
         {
-            // Adentro del casillero: El volumen baja suavemente a medida que te calmás
             float volumenRespiracionObjetivo = Mathf.Clamp01((100f - currentSanity) / 100f);
 
             if (sourceRespiracion != null)
@@ -129,7 +186,6 @@ public class SanityManager : MonoBehaviour
         }
         else
         {
-            // Afuera del casillero: CORTE SECO INSTANTÁNEO
             if (sourceRespiracion != null)
             {
                 sourceRespiracion.volume = 0f;
@@ -139,7 +195,6 @@ public class SanityManager : MonoBehaviour
 
     void DieFromInsanity()
     {
-        // GameManager.EjecutarGameOver();
         this.enabled = false;
     }
 }
