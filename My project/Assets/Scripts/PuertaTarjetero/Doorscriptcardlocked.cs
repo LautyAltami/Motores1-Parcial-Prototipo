@@ -1,11 +1,5 @@
 using UnityEngine;
 
-// Variante de DoorScriptLocked pensada para puertas que se abren con TARJETA
-// a traves del CardReader, no tocando la puerta directamente.
-//
-// Diferencia clave con DoorScriptLocked: esta puerta NUNCA se destraba sola
-// al tocarla, sin importar si el jugador tiene la tarjeta o no. Solo se
-// destraba cuando el CardReader llama a DesbloquearDesdeTarjetero().
 public class DoorScriptCardLocked : ObjetoInteractivoBase
 {
     [Header("Configuracion de Movimiento")]
@@ -18,7 +12,7 @@ public class DoorScriptCardLocked : ObjetoInteractivoBase
 
     [Header("Logica de Cerradura")]
     public bool isLocked = true;
-    public string requiredCardId = "TarjetaRoja"; // Solo informativo para el cartel, no se chequea aca
+    public string requiredCardId = "TarjetaRoja";
     public AudioSource audioSource;
     public AudioClip lockedSound;
     public AudioClip unlockSound;
@@ -36,6 +30,9 @@ public class DoorScriptCardLocked : ObjetoInteractivoBase
         closedRotation = pivot.rotation;
         targetRotation = closedRotation;
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+        // DEBUG TEMPORAL: confirma que este script arranco bien
+        Debug.Log("[DoorScriptCardLocked] Start() ejecutado. isLocked=" + isLocked);
     }
 
     void Update()
@@ -56,8 +53,6 @@ public class DoorScriptCardLocked : ObjetoInteractivoBase
         return isOpen ? "Cerrar puerta" : "Abrir puerta";
     }
 
-    // Al tocar la puerta directamente: si esta trabada, SIEMPRE muestra el cartel,
-    // nunca la destraba, sin importar si el jugador tiene la tarjeta o no.
     public override void Interact(GameObject player)
     {
         if (isLocked)
@@ -74,19 +69,25 @@ public class DoorScriptCardLocked : ObjetoInteractivoBase
         targetRotation = isOpen ? Quaternion.Euler(0, openAngle, 0) * closedRotation : closedRotation;
     }
 
-    // Esta es la UNICA forma de destrabar y abrir la puerta: llamada por el
-    // CardReader cuando confirma que el jugador tiene la tarjeta correcta.
     public void DesbloquearDesdeTarjetero()
     {
-        if (!isLocked) return; // Ya estaba destrabada, no hacemos nada
+        // DEBUG TEMPORAL: esto TIENE que aparecer en consola al tocar el tarjetero con OK
+        Debug.Log("[DoorScriptCardLocked] DesbloquearDesdeTarjetero() fue llamado. isLocked antes=" + isLocked);
+
+        if (!isLocked)
+        {
+            Debug.Log("[DoorScriptCardLocked] Ya estaba destrabada, no hago nada.");
+            return;
+        }
 
         isLocked = false;
 
         if (audioSource != null && unlockSound != null)
             audioSource.PlayOneShot(unlockSound);
 
-        // La abrimos directamente
         isOpen = true;
         targetRotation = Quaternion.Euler(0, openAngle, 0) * closedRotation;
+
+        Debug.Log("[DoorScriptCardLocked] Puerta destrabada y abierta. isLocked ahora=" + isLocked);
     }
 }
