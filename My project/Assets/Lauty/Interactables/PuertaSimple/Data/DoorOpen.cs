@@ -17,7 +17,7 @@ public class DoorOpen : ObjetoInteractivoBase
 
     protected override void Start()
     {
-        base.Start(); // faltaba esto
+        base.Start(); 
         if (pivot == null) pivot = transform;
         closedRotation = pivot.rotation;
         targetRotation = closedRotation;
