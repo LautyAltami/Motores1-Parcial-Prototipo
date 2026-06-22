@@ -30,6 +30,7 @@ public class ShadowAI : MonoBehaviour
     private bool playerIsHidden;
 
     private State currentState;
+    public bool IsChasing => currentState == State.Chasing;
     private Coroutine stunCoroutine;
     private Coroutine despawnCoroutine;
 
