@@ -33,6 +33,9 @@ public class ShadowAI : MonoBehaviour
     private Coroutine stunCoroutine;
     private Coroutine despawnCoroutine;
 
+    
+    // Le permite al SanityManager saber si el monstruo está en estado Chasing
+    public bool IsChasing => currentState == State.Chasing;
 
     private string currentAnim = "";
 
@@ -310,7 +313,10 @@ public class ShadowAI : MonoBehaviour
         if (audioSource != null &&
             idleSound != null)
         {
-            audioSource.PlayOneShot(idleSound);
+            if (audioSource != null && idleSound != null)
+            {
+                audioSource.PlayOneShot(idleSound);
+            }
         }
 
         despawnCoroutine =

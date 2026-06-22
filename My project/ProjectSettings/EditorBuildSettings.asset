@@ -6,8 +6,23 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: "Assets/Scenes/Dise\xF1oNiveles.unity"
-    guid: a52d37f600b3c2f4fa99b6ef374c8f08
+    path: Assets/Scenes/GameLoopScenes/MainMenuScene.unity
+    guid: b4c5f818786b4dc4e98959ee36274c1a
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 50fd83bc7b626264cb148a94c793d546
+  - enabled: 1
+    path: Assets/Scenes/GameLoopScenes/GameOverScene.unity
+    guid: 0c828cf9520fffc4d94a4f9db0b4a2b1
+  - enabled: 1
+    path: Assets/Scenes/GameLoopScenes/GameOverSanidadScene.unity
+    guid: 5afb96ce8a084e64f83c955ca94673b7
+  - enabled: 1
+    path: Assets/Scenes/Final.unity
+    guid: 7f792419d6d81c44d98650e409d88127
+  - enabled: 1
+    path: Assets/Scenes/GameLoopScenes/VictoryScene.unity
+    guid: 6c60e18c41123c14187d77e320e0d2ec
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0
