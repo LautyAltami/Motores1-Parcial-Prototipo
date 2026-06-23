@@ -329,12 +329,6 @@ public class ShadowAI : MonoBehaviour
 
         Debug.Log("Voy a morir");
 
-        // Avisamos a las puertas dobles (y a quien escuche) que el monstruo
-        // se va, mandando el locker especifico donde sucedio. Esto tiene que
-        // pasar ANTES de la animacion de muerte, para que la puerta empiece
-        // a abrirse mientras el monstruo todavia se ve (efecto mas natural).
-        OnDespawn?.Invoke(lockerActual);
-
         PlayDeath();
 
         yield return new WaitForSeconds(1.5f);
