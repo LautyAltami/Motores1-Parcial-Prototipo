@@ -55,7 +55,7 @@ public class FinalTrigger : MonoBehaviour
 
         {
 
-            LevelSceneManager.Instance.LoadNameScene("Final");
+            LevelSceneManager.Instance.LoadNameScene("VictoryScene");
 
         }
 
