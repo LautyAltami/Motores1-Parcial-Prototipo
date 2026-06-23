@@ -1562,7 +1562,7 @@ Transform:
   m_GameObject: {fileID: 1823072105}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.000022903085}
-  m_LocalPosition: {x: 22.99, y: 2.086, z: -14.4}
+  m_LocalPosition: {x: 12.2, y: 2.23, z: -21}
   m_LocalScale: {x: 0.74, y: 0.019436857, z: 0.9068484}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1582,7 +1582,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FinalInteractableNote
   canvasNota: {fileID: 903783750}
   uiText: Nota Medica
+<<<<<<< HEAD
   tiempoLectura: 15
+=======
+  tiempoLectura: 10
+>>>>>>> 867fd733dd0f719b2638fad4c461bc62dd89395c
   nombreEscenaDestino: MainMenuScene
   imageFadeNegro: {fileID: 1994667897}
   duracionFade: 2
