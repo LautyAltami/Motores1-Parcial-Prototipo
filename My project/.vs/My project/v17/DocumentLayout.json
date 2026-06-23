@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "E:\\Proyecto Unity\\Motores\\Motores1-Parcial-Prototipo\\My project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|e:\\proyecto unity\\motores\\motores1-parcial-prototipo\\my project\\assets\\_scripts\\finalinteractablenote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\finalinteractablenote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|e:\\proyecto unity\\motores\\motores1-parcial-prototipo\\my project\\assets\\_scripts\\interactuables\\interactuarnota.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\interactuables\\interactuarnota.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -18,11 +22,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "FinalInteractableNote.cs",
+              "DocumentMoniker": "E:\\Proyecto Unity\\Motores\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\FinalInteractableNote.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\FinalInteractableNote.cs",
+              "ToolTip": "E:\\Proyecto Unity\\Motores\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\FinalInteractableNote.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\FinalInteractableNote.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAowB8AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T23:54:54.907Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "ShadowAI.cs",
               "DocumentMoniker": "E:\\Proyecto Unity\\Motores\\Motores1-Parcial-Prototipo\\My project\\Assets\\Ale\\ShadowAI\\Data\\ShadowAI.cs",
               "RelativeDocumentMoniker": "Assets\\Ale\\ShadowAI\\Data\\ShadowAI.cs",
@@ -30,12 +47,11 @@
               "RelativeToolTip": "Assets\\Ale\\ShadowAI\\Data\\ShadowAI.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T22:56:40.348Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T22:56:40.348Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "InteractuarNota.cs",
               "DocumentMoniker": "E:\\Proyecto Unity\\Motores\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Interactuables\\InteractuarNota.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Interactuables\\InteractuarNota.cs",

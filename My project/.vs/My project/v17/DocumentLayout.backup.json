@@ -30,7 +30,8 @@
               "RelativeToolTip": "Assets\\Ale\\ShadowAI\\Data\\ShadowAI.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T22:56:40.348Z"
+              "WhenOpened": "2026-06-22T22:56:40.348Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -38,9 +39,9 @@
               "Title": "InteractuarNota.cs",
               "DocumentMoniker": "E:\\Proyecto Unity\\Motores\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Interactuables\\InteractuarNota.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Interactuables\\InteractuarNota.cs",
-              "ToolTip": "E:\\Proyecto Unity\\Motores\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Interactuables\\InteractuarNota.cs*",
-              "RelativeToolTip": "Assets\\_Scripts\\Interactuables\\InteractuarNota.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAHAAAAAAAAAA==",
+              "ToolTip": "E:\\Proyecto Unity\\Motores\\Motores1-Parcial-Prototipo\\My project\\Assets\\_Scripts\\Interactuables\\InteractuarNota.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Interactuables\\InteractuarNota.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-22T22:50:32.373Z",
               "EditorCaption": ""
