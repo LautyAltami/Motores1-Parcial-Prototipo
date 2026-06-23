@@ -3682,7 +3682,7 @@ MonoBehaviour:
   velocidadApertura: 4
   sonidoGolpazo: {fileID: 8300000, guid: 90a568e08d65ac440bc463721cc1db6e, type: 3}
   colliderDeBloqueo: {fileID: 862048420}
-  forzandoApertura: 0
+  forzandoApertura: 1
 --- !u!1 &629365056
 GameObject:
   m_ObjectHideFlags: 0

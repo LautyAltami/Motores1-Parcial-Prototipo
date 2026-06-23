@@ -1582,8 +1582,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FinalInteractableNote
   canvasNota: {fileID: 903783750}
   uiText: Nota Medica
-  tiempoLectura: 10
-  nombreEscenaDestino: MainMenu
+  tiempoLectura: 15
+  nombreEscenaDestino: MainMenuScene
   imageFadeNegro: {fileID: 1994667897}
   duracionFade: 2
   grabSound: {fileID: 8300000, guid: 23ef9e9335cb2684c82d0759c9bb9b78, type: 3}

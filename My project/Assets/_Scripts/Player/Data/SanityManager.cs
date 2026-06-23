@@ -196,5 +196,6 @@ public class SanityManager : MonoBehaviour
     void DieFromInsanity()
     {
         this.enabled = false;
+        LevelSceneManager.Instance.LoadGameOverSanidadScene();
     }
 }
